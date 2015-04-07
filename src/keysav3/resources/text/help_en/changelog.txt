@@ -1,0 +1,85 @@
+=======================================
+Changelog for Kaisonic's Build, KeySAV3
+=======================================
+KeySAV3 3.0 (2015-02-5)
+- 
+
+KeySAV2 1.3.8 (2015-01-29)
+- Fixed output text box size on filter enable
+- Ensured level calculation is correct
+- Fixed file size checking on break files
+- Fixed pk6 file output number format
+- Added option to disable Unicode characters in output (uncheck Unicode if your gender symbols are not appearing correctly)
+- Changed (None) to empty for empty moves (and other things)
+- Added "Has Hidden Ability" column
+- Added "Has Hidden Ability" filter
+- Changed "Row,Col" back to "Slot" for all output except CSV output
+- Added option to not add header to output (it's recommended to keep "Header" checked for any Reddit output)
+- Fixed unhandled exception when decrypting certain Pokemon moves failed
+
+KeySAV2 1.3.7 (2015-01-05)
+- Fixed auto-open paths - battle videos and saves should now open automatically when the SD card is inserted
+- Added support for CyberGadget backups
+- Merged filter updates from Cu3PO42's version
+- Filter options are only visible when filter is enabled
+- Added ball image column for the SVExchange subreddit
+
+KeySAV2 1.3.6 (2014-12-14)
+- CSV output file name now defaults to name of the SAV or BV you've opened
+- Fixed: IV counter shows "1 IVs"
+- Fixed: hatched date for eggs is "2000-00-00"
+- Added: "Steps to Hatch" column for eggs
+- Added: "Reset to Default" button for CSV custom output
+
+KeySAV2 1.3.5 (2014-12-07)
+- Added columns: OT gender, met level, OT friendship, OT affection
+- Fixed newlines and file paths for better compatibility
+
+KeySAV2 1.3.4 (2014-12-07)
+- Fixed "Backup SAV" button size
+- Fixed empty first line in text output if "Split Boxes" was checked
+- Added more descriptive headers ("All Boxes", "Boxes 1-4", etc)
+- Fixed shiny star appearing for eggs (it is now a checkmark, like it should be)
+- Fixed Unown forms (will now show as "Unown-A", "Unown-D", "Unown-!", etc)
+- Added a column for number in the dump (just goes from 1 to number of Pokémon dumped)
+- Added Pokerus status columns (Infected and Cured)
+- Re-ordered default CSV custom columns to make a little more sense
+    - To reset your CSV custom format, erase the format from the text box, switch to another format, then switch back to CSV custom and the default will be filled in
+    - This default is just a specific order of ALL available columns
+    - This does NOT effect the "CSV default" option, so any program that parses the standard CSV output from this program will still work!
+- README.txt file with changelog and full guide now included
+- More code refactoring
+- Updated guide so the breaking process is easier to follow
+
+KeySAV2 1.3.3
+- Removed legacy save breaking behavior option (confusing and unnecessary)
+- Fixed output text box extending beyond window
+- Remove unstable key-breaking code
+- Changed CSV custom to allow custom formats
+- Show headers once if "Split Boxes" is not checked
+- Use "Box" instead of just "B" for headers
+- Fixed brackets for ESV appearing in CSV data
+- Added columns: experience
+- Added translations for "Game" and "Region" columns ("Country" is still English for all)
+
+KeySAV2 1.3.2
+- Added "Egg Received" and "Met/Hatched" columns
+- Fixed legacy break help box
+
+KeySAV2 1.3.1
+- Added option to use legacy save-twice file-breaking behavior (click "What's this?" in the app for more info)
+
+KeySAV2 1.3
+- Added available columns: Level, Region, Country, Held Item, Language, Game, Number, PID, Mark, Dex Number, Form
+- Fixed "mark" - pentagon mark is now present for all Pokémon created in generation 6
+- Fixed "Number" column to be 1-indexed
+- Fixed help box to be resizable and able to be kept open while working in the main window
+- Added ORAS game support for "Game" and "Region" values
+- Fixed superfluous spaces in CSV data
+- Added perfect IV marker columns
+- Added perfect IV counter column
+- Added IV and EV sum columns
+- Changed pk6 file output to be in box order rather than species order (for better PkHex support)
+- Code refactoring (combined dumpPKX_BV and dumpPKX_SAV)
+- Added option to show ESV for hatched Pokémon
+- Added option to enclose trainer and Pokémon nicknames in quotes for CSV exports (to prevent problems with commas in either)

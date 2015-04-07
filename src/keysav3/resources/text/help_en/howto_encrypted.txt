@@ -1,0 +1,16 @@
+How to Open Encrypted Saves
+
+- Go to the "SAV" tab of the program.
+- Click on "Open SAV"
+    - If you have a digital copy and your SD card is inserted, the program should automatically load your save for you.
+    - Otherwise, select your file.
+- If you have not yet generated a key file for your selected save, the program will tell you and it will not let you proceed.
+- Select the boxes you would like to show, or leave "All" selected.
+- Go the "Options" tab to make your selections on Export Style and various other options.
+- Click "Enable" under "Filtering" in the "SAV" tab to do any filtering that you would like.
+- Click "Go".
+- Your Pokémon information should appear!
+
+If no Pokémon appear, it's likely that your Filter or Box settings are incorrect.
+
+If some Pokémon do not appear that you KNOW should be there, or if Pokémon appear in slots you know to be empty, it's likely that decryption somehow failed. This is a known bug. To try and fix this, it's suggested to re-create your break saves and break your encryption again (re-create your key file). If you followed the "Breaking Additional Slots" instructions, it's suggested to open your "empty" save first after re-breaking, then open your two "full" saves.
