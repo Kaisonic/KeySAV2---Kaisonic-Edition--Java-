@@ -274,19 +274,19 @@ public class Form1 extends javax.swing.JFrame {
     {
         byte[] pkx = new byte[0xE8]; System.arraycopy(ekx, 0, pkx, 0, 0xE8);
         long pv = BitConverter.ToUInt32(pkx, 0);
-        long sv = (((pv & 0x3E000) >> 0xD) % 24);
+        long sv = (((pv & 0x3E000) >>> 0xD) % 24);
 
         long seed = pv;
 
         // Decrypt Blocks with RNG Seed
         for (int i = 8; i < 232; i += 2)
         {
-            int pre = pkx[i] + ((pkx[i + 1]) << 8);
+            int pre = (pkx[i]&0xff) + ((pkx[i + 1]&0xff) << 8);
             seed = LCRNG(seed);
-            int seedxor = (int)(seed) >> 16;
+            int seedxor = (int)((seed) >>> 16);
             int post = (pre ^ seedxor);
             pkx[i] = (byte)((post) & 0xFF);
-            pkx[i + 1] = (byte)(((post) >> 8) & 0xFF);
+            pkx[i + 1] = (byte)(((post) >>> 8) & 0xFF);
         }
 
         // Deshuffle
@@ -298,7 +298,7 @@ public class Form1 extends javax.swing.JFrame {
     {
         // Shuffle
         long pv = BitConverter.ToUInt32(pkx, 0);
-        long sv = (((pv & 0x3E000) >> 0xD) % 24);
+        long sv = (((pv & 0x3E000) >>> 0xD) % 24);
 
         byte[] ekxdata = new byte[pkx.length]; System.arraycopy(pkx, 0, ekxdata, 0, pkx.length);
 
@@ -311,12 +311,12 @@ public class Form1 extends javax.swing.JFrame {
         // Encrypt Blocks with RNG Seed
         for (int i = 8; i < 232; i += 2)
         {
-            int pre = ekxdata[i] + ((ekxdata[i + 1]) << 8);
+            int pre = (ekxdata[i]&0xff) + ((ekxdata[i + 1]&0xff) << 8);
             seed = LCRNG(seed);
-            int seedxor = (int)((seed) >> 16);
+            int seedxor = (int)((seed) >>> 16);
             int post = (pre ^ seedxor);
             ekxdata[i] = (byte)((post) & 0xFF);
-            ekxdata[i + 1] = (byte)(((post) >> 8) & 0xFF);
+            ekxdata[i + 1] = (byte)(((post) >>> 8) & 0xFF);
         }
 
         // Encrypt the Party Stats
@@ -325,10 +325,10 @@ public class Form1 extends javax.swing.JFrame {
         {
             int pre = ekxdata[i] + ((ekxdata[i + 1]) << 8);
             seed = LCRNG(seed);
-            int seedxor = (int)((seed) >> 16);
+            int seedxor = (int)((seed) >>> 16);
             int post = (pre ^ seedxor);
             ekxdata[i] = (byte)((post) & 0xFF);
-            ekxdata[i + 1] = (byte)(((post) >> 8) & 0xFF);
+            ekxdata[i + 1] = (byte)(((post) >>> 8) & 0xFF);
         }
 
         // Done
@@ -339,7 +339,7 @@ public class Form1 extends javax.swing.JFrame {
     {
         // Define Shuffle Order Structure
         byte[] dloc = new byte[] { 3, 2, 3, 2, 1, 1, 3, 2, 3, 2, 1, 1, 3, 2, 3, 2, 1, 1, 0, 0, 0, 0, 0, 0 };
-        int sv = (((ec & 0x3E000) >> 0xD) % 24);
+        int sv = (((ec & 0x3E000) >>> 0xD) % 24);
 
         return dloc[sv];
     }
@@ -1526,7 +1526,7 @@ public class Form1 extends javax.swing.JFrame {
         catch (UnsupportedEncodingException e) { JOptionPane.showMessageDialog(this, "Error retrieving OT name.\n\n" + e, "Error", JOptionPane.ERROR_MESSAGE); }
         int tid = BitConverter.ToUInt16(pkx, 0xC);
         int sid = BitConverter.ToUInt16(pkx, 0xE);
-        int tsv = ((tid ^ sid) >> 4);
+        int tsv = ((tid&0xff) ^ (sid&0xff)) >>> 4;
         if (JOptionPane.showConfirmDialog(this, String.format("Success!\nYour first Pokemon's TSV: %04d\nOT: %s\n\nClick OK to save your keystream.", tsv, ot), "Prompt", JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION)
         {
             Path fi = Paths.get(TB_FileBV1.getText());
@@ -1877,7 +1877,7 @@ public class Form1 extends javax.swing.JFrame {
                 catch (UnsupportedEncodingException e) { JOptionPane.showMessageDialog(this, "Error retrieving OT name.\n\n" + e, "Error", JOptionPane.ERROR_MESSAGE); }
                 int tid = BitConverter.ToUInt16(pkx, 0xC);
                 int sid = BitConverter.ToUInt16(pkx, 0xE);
-                int tsv = ((tid ^ sid) >> 4);
+                int tsv = ((tid&0xff) ^ (sid&0xff)) >>> 4;
                 Path newPath = Paths.get(path_exe, "data", CleanFileName(String.format("SAV Key - %s - (%05d.%05d) - TSV %04d.bin", ot, tid, sid, tsv)));
                 boolean doit = true;
                 if (Files.exists(newPath))
@@ -2385,8 +2385,8 @@ public class Form1 extends javax.swing.JFrame {
                 PID = BitConverter.ToUInt32(pkx, 0x18);
                 nature = pkx[0x1C];
                 feflag = pkx[0x1D] % 2;
-                genderflag = (pkx[0x1D] >> 1) & 0x3;
-                altforms = (pkx[0x1D] >> 3);
+                genderflag = (pkx[0x1D] >>> 1) & 0x3;
+                altforms = (pkx[0x1D] >>> 3);
                 HP_EV = pkx[0x1E];
                 ATK_EV = pkx[0x1F];
                 DEF_EV = pkx[0x20];
@@ -2400,15 +2400,15 @@ public class Form1 extends javax.swing.JFrame {
                 cnt_tough = pkx[0x28];
                 cnt_sheen = pkx[0x29];
                 markings = pkx[0x2A];
-                PKRS_Strain = pkx[0x2B] >> 4;
+                PKRS_Strain = pkx[0x2B] >>> 4;
                 PKRS_Duration = pkx[0x2B] % 0x10;
 
                 // Block B
                 try
                 {
-                nicknamestr = TrimFromZero(new String(pkx, 0x40, 24, "UTF-16LE"));
-                notOT = TrimFromZero(new String(pkx, 0x78, 24, "UTF-16LE"));
-                ot = TrimFromZero(new String(pkx, 0xB0, 24, "UTF-16LE"));
+                    nicknamestr = TrimFromZero(new String(pkx, 0x40, 24, "UTF-16LE"));
+                    notOT = TrimFromZero(new String(pkx, 0x78, 24, "UTF-16LE"));
+                    ot = TrimFromZero(new String(pkx, 0xB0, 24, "UTF-16LE"));
                 }
                 catch (UnsupportedEncodingException e) { nicknamestr = notOT = ot = "ERROR"; }
                 // 0x58, 0x59 - unused
@@ -2434,13 +2434,13 @@ public class Form1 extends javax.swing.JFrame {
                 // 0x73 - unused/unknown
                 IV32 = (int)BitConverter.ToUInt32(pkx, 0x74);
                 HP_IV = IV32 & 0x1F;
-                ATK_IV = (IV32 >> 5) & 0x1F;
-                DEF_IV = (IV32 >> 10) & 0x1F;
-                SPE_IV = (IV32 >> 15) & 0x1F;
-                SPA_IV = (IV32 >> 20) & 0x1F;
-                SPD_IV = (IV32 >> 25) & 0x1F;
-                isegg = (((IV32 >> 30) & 1) != 0);
-                isnick = ((IV32 >> 31) != 0);
+                ATK_IV = (IV32 >>> 5) & 0x1F;
+                DEF_IV = (IV32 >>> 10) & 0x1F;
+                SPE_IV = (IV32 >>> 15) & 0x1F;
+                SPA_IV = (IV32 >>> 20) & 0x1F;
+                SPD_IV = (IV32 >>> 25) & 0x1F;
+                isegg = (((IV32 >>> 30) & 1) != 0);
+                isnick = ((IV32 >>> 31) != 0);
 
                 // Block C
 
@@ -2463,7 +2463,7 @@ public class Form1 extends javax.swing.JFrame {
                 metloc = BitConverter.ToUInt16(pkx, 0xDA);
                 ball = pkx[0xDC];
                 metlevel = pkx[0xDD] & 0x7F;
-                otgender = (pkx[0xDD]) >> 7;
+                otgender = (pkx[0xDD]) >>> 7;
                 encountertype = pkx[0xDE];
                 gamevers = pkx[0xDF];
                 countryID = pkx[0xE0];
@@ -2479,8 +2479,8 @@ public class Form1 extends javax.swing.JFrame {
 
                 hptype = (15 * ((HP_IV & 1) + 2 * (ATK_IV & 1) + 4 * (DEF_IV & 1) + 8 * (SPE_IV & 1) + 16 * (SPA_IV & 1) + 32 * (SPD_IV & 1))) / 63 + 1;
 
-                TSV = (short)((TID ^ SID) >> 4);
-                ESV = (short)(((PID >> 16) ^ (PID & 0xFFFF)) >> 4);
+                TSV = (short)((TID ^ SID) >>> 4);
+                ESV = (short)(((PID >>> 16) ^ (PID & 0xFFFF)) >>> 4);
 
                 isshiny = (TSV == ESV);
             }
