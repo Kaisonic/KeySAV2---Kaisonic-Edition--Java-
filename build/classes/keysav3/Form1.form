@@ -1140,6 +1140,9 @@
                         <Property name="lineWrap" type="boolean" value="true"/>
                         <Property name="rows" type="int" value="1"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="updatePreview"/>
+                      </Events>
                     </Component>
                   </SubComponents>
                 </Container>
