@@ -490,9 +490,9 @@ public class Form1 extends javax.swing.JFrame {
             // Fix CHK
             int chk = 0;
             for (int i = 8; i < 232; i += 2) // Loop through the entire PKX
-                chk += BitConverter.ToUInt16(empty, i);
+                chk += BitConverter.ToUInt16LE(empty, i);
             // Apply New Checksum
-            System.arraycopy(BitConverter.GetBytes(chk), 0, empty, 06, 2);
+            System.arraycopy(BitConverter.GetBytesBE(chk), 0, empty, 06, 2);
             empty = encryptArray(empty);
             empty = Arrays.copyOf(empty, 0xE8);
 
@@ -805,7 +805,7 @@ public class Form1 extends javax.swing.JFrame {
         for (int i = 0; i < 930; i++)
             fetchpkx(input, keystream, boxoffset + i * 232, 0x100 + i * 232, 0x40000 + i * 232, blank);
         if(showUI)
-            L_SAVStats.setText(String.format("{0}/930", slots));
+            L_SAVStats.setText(String.format("%0$s/930", slots));
     }
     
     private void dumpPKX(boolean isSAV, byte[] pkx, int dumpnum, int dumpstart)
