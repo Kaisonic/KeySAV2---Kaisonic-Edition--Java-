@@ -1525,8 +1525,8 @@ public class Form1 extends javax.swing.JFrame {
         String ot = "";
         try { ot = TrimFromZero(new String(pkx, 0xB0, 24, "UTF-16LE")); }
         catch (UnsupportedEncodingException e) { JOptionPane.showMessageDialog(this, "Error retrieving OT name.\n\n" + e, "Error", JOptionPane.ERROR_MESSAGE); }
-        int tid = BitConverter.ToUInt16(pkx, 0xC);
-        int sid = BitConverter.ToUInt16(pkx, 0xE);
+        int tid = BitConverter.ToUInt16LE(pkx, 0xC);
+        int sid = BitConverter.ToUInt16LE(pkx, 0xE);
         int tsv = (tid ^ sid) >>> 4;
         if (JOptionPane.showConfirmDialog(this, String.format("Success!\nYour first Pokemon's TSV: %04d\nOT: %s\n\nClick OK to save your keystream.", tsv, ot), "Prompt", JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION)
         {
