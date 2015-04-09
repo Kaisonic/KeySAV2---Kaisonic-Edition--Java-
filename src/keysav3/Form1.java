@@ -40,7 +40,7 @@ public class Form1 extends javax.swing.JFrame {
         CB_ExportStyle.setSelectedIndex(0);
         CB_BoxColor.setSelectedIndex(0);
         CB_No_IVs.setSelectedIndex(0);
-        updatePreview();
+        updatePreview(null);
         
         // Load configuration, initialize strings
         // loadINI();
@@ -1028,7 +1028,16 @@ public class Form1 extends javax.swing.JFrame {
             }
 
             // Generate result for this Pokemon
-            String result = String.format(format, box, slot, species, gender, nature, ability, hp, atk, def, spa, spd, spe, hptype, ESV, TSV, nickname, otname, ball, TID, SID, ev_hp, ev_at, ev_de, ev_sa, ev_sd, ev_se, move1, move2, move3, move4, relearn1, relearn2, relearn3, relearn4, isshiny, isegg, level, region, country, helditem, language, pgame, number, PID, mark, dex, form, hpm, atkm, defm, spam, spdm, spem, IVs, IVsum, EVsum, eggDate, metDate, experience, overallCount, pkrsInfected, pkrsCured, OTgender, metLevel, OTfriendship, OTaffection, stepsToHatch, ballimg, hiddenability);
+            String result;
+            try
+            {
+                result = String.format(convertStringFormat(format), box, slot, species, gender, nature, ability, hp, atk, def, spa, spd, spe, hptype, ESV, TSV, nickname, otname, ball, TID, SID, ev_hp, ev_at, ev_de, ev_sa, ev_sd, ev_se, move1, move2, move3, move4, relearn1, relearn2, relearn3, relearn4, isshiny, isegg, level, region, country, helditem, language, pgame, number, PID, mark, dex, form, hpm, atkm, defm, spam, spdm, spem, IVs, IVsum, EVsum, eggDate, metDate, experience, overallCount, pkrsInfected, pkrsCured, OTgender, metLevel, OTfriendship, OTaffection, stepsToHatch, ballimg, hiddenability);
+            }
+            catch (IllegalFormatException e)
+            {
+                JOptionPane.showMessageDialog(this, "Format exception - check your format string.\n\n" + e, "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
 
             // Add the result to the CSV data if needed
             if (CB_ExportStyle.getSelectedIndex() == 6 || CB_ExportStyle.getSelectedIndex() == 7)
@@ -1060,7 +1069,16 @@ public class Form1 extends javax.swing.JFrame {
             format = "{0} - {1} - {2} ({3}) - {4} - {5} - {6}.{7}.{8}.{9}.{10}.{11} - {12} - {13}";
 
         // Get the header
-        String header = getHeaderString(format, isSAV);
+        String header;
+        try
+        {
+            header = getHeaderString(format, isSAV);
+        }
+        catch (IllegalFormatException e)
+        {
+            JOptionPane.showMessageDialog(this, "Format exception - check your format string.\n\n" + e, "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         if (CHK_Header.isSelected()) csvdata = header + "\n";
 
         // Add header if Reddit, or if custom and Reddit table checked
@@ -1131,10 +1149,10 @@ public class Form1 extends javax.swing.JFrame {
                 // Fix CHK
                 int chk = 0;
                 for (int i = 8; i < 232; i += 2) // Loop through the entire PKX
-                    chk += BitConverter.ToUInt16(empty, i);
+                    chk += BitConverter.ToUInt16LE(empty, i);
 
                 // Apply New Checksum
-                System.arraycopy(BitConverter.GetBytes(chk), 0, empty, 06, 2);
+                System.arraycopy(BitConverter.GetBytesBE(chk), 0, empty, 06, 2);
                 empty = encryptArray(empty);
                 empty = Arrays.copyOf(empty, 0xE8);
                 boxoffset = BitConverter.ToInt32(keystream, 0x1C);
@@ -1282,7 +1300,7 @@ public class Form1 extends javax.swing.JFrame {
         if (CB_ExportStyle.getSelectedIndex() == 6 || CB_ExportStyle.getSelectedIndex() == 7)
         {
             JFileChooser savecsv = new JFileChooser((isSAV) ? savpath : vidpath);
-            String theName = (lastOpenedFilename.equals("")) ? "KeySAV Data Dump.csv" : lastOpenedFilename.substring(0, -4) + ".csv";
+            String theName = (lastOpenedFilename.equals("")) ? "KeySAV Data Dump.csv" : lastOpenedFilename.substring(0, lastOpenedFilename.length() - 4) + ".csv";
             File suggested = new File(((isSAV) ? savpath : vidpath) + File.pathSeparator + theName);
             savecsv.addChoosableFileFilter(new FileNameExtensionFilter("Spreadsheet", "csv"));
             if (savecsv.showSaveDialog(this) == JFileChooser.APPROVE_OPTION)
@@ -1943,7 +1961,57 @@ public class Form1 extends javax.swing.JFrame {
         // Only output Row,Col for CSV output for SAVs
         String slotString = (isSAV && (CB_ExportStyle.getSelectedIndex() == 6 || CB_ExportStyle.getSelectedIndex() == 7)) ? "Row,Col" : "Slot";
 
-        return String.format(format, "Box", slotString, "Species", "Gender", "Nature", "Ability", "HP", "ATK", "DEF", "SPA", "SPD", "SPE", "HiddenPower", "ESV", "TSV", "Nickname", "OT", "Ball", "TID", "SID", "HP EV", "ATK EV", "DEF EV", "SPA EV", "SPD EV", "SPE EV", "Move 1", "Move 2", "Move 3", "Move 4", "Relearn 1", "Relearn 2", "Relearn 3", "Relearn 4", "Shiny", "Egg", "Level", "Region", "Country", "Held Item", "Language", "Game", "Slot", "PID", "Mark", "Dex Number", "Form", "1", "2", "3", "4", "5", "6", "IVs", "IV Sum", "EV Sum", "Egg Received", "Met/Hatched", "Exp", "Count", "Infected", "Cured", "OTG", "Met Level", "Friendship", "Affection", "Steps to Hatch", "Ball", "HA");
+        return String.format(convertStringFormat(format), "Box", slotString, "Species", "Gender", "Nature", "Ability", "HP", "ATK", "DEF", "SPA", "SPD", "SPE", "HiddenPower", "ESV", "TSV", "Nickname", "OT", "Ball", "TID", "SID", "HP EV", "ATK EV", "DEF EV", "SPA EV", "SPD EV", "SPE EV", "Move 1", "Move 2", "Move 3", "Move 4", "Relearn 1", "Relearn 2", "Relearn 3", "Relearn 4", "Shiny", "Egg", "Level", "Region", "Country", "Held Item", "Language", "Game", "Slot", "PID", "Mark", "Dex Number", "Form", "1", "2", "3", "4", "5", "6", "IVs", "IV Sum", "EV Sum", "Egg Received", "Met/Hatched", "Exp", "Count", "Infected", "Cured", "OTG", "Met Level", "Friendship", "Affection", "Steps to Hatch", "Ball", "HA");
+    }
+    
+    // Cross-platform string formatting
+    private String convertStringFormat(String format)
+    {
+        // Convert {2} to %2$s for every { with a matching } and only numbers in between
+        // Increment numbers since we're apparently 1-indexed
+        String result = "";
+        boolean gettingNumber = false;
+        String currentNumber = "";
+        for (char c : format.toCharArray())
+        {
+            if (c == '}' && gettingNumber)
+            {
+                gettingNumber = false;
+                int number = 0;
+                try
+                {
+                    number = Integer.parseInt(currentNumber);
+                }
+                catch (NumberFormatException e)
+                {
+                    // Characters between braces were not a number, copy it all back
+                    result += "{" + currentNumber + "}";
+                    currentNumber = "";
+                    continue;
+                }
+                number++;
+                result += "%" + Integer.toString(number) + "$s";
+                currentNumber = "";
+            }
+            else if (gettingNumber)
+            {
+                currentNumber += c;
+            }
+            else if (c == '{')
+            {
+                gettingNumber = true;
+            }
+            else
+            {
+                result += c;
+            }
+        }
+        
+        return result;
+        
+        // format = format.replace("{", "%");
+        // format = format.replace("}", "$s");
+        // return format;
     }
     
     // SD Detection
@@ -2184,7 +2252,7 @@ public class Form1 extends javax.swing.JFrame {
         }
 
         // Update the format preview on format change
-        updatePreview();
+        updatePreview(null);
     }
 
     private void changeFormatText()
@@ -2199,7 +2267,7 @@ public class Form1 extends javax.swing.JFrame {
             customcsv = RTB_OPTIONS.getText();
 
         // Update format preview whenever it's changed
-        updatePreview();
+        updatePreview(null);
     }
 
     private void changeTableStatus(java.awt.event.ItemEvent evt)
@@ -2222,11 +2290,11 @@ public class Form1 extends javax.swing.JFrame {
     }
 
     // Update Text Format Preview
-    private void updatePreview()
+    private void updatePreview(java.awt.event.KeyEvent evt)
     {
         // Catch a format exception to let the user finish typing formats
         try { RTB_Preview.setText(getHeaderString(RTB_OPTIONS.getText(), true)); }
-        catch (Exception e) { /* Do nothing */ }
+        catch (IllegalFormatException e) { /* Do nothing */ }
     }
 
     // Translation
@@ -2376,11 +2444,11 @@ public class Form1 extends javax.swing.JFrame {
                 notOT = "";
                 ot = "";
                 EC = BitConverter.ToUInt32(pkx, 0);
-                chk = BitConverter.ToUInt16(pkx, 6);
-                species = BitConverter.ToUInt16(pkx, 0x08);
-                helditem = BitConverter.ToUInt16(pkx, 0x0A);
-                TID = BitConverter.ToUInt16(pkx, 0x0C);
-                SID = BitConverter.ToUInt16(pkx, 0x0E);
+                chk = BitConverter.ToUInt16LE(pkx, 6);
+                species = BitConverter.ToUInt16LE(pkx, 0x08);
+                helditem = BitConverter.ToUInt16LE(pkx, 0x0A);
+                TID = BitConverter.ToUInt16LE(pkx, 0x0C);
+                SID = BitConverter.ToUInt16LE(pkx, 0x0E);
                 exp = BitConverter.ToUInt32(pkx, 0x10);
                 ability = pkx[0x14];
                 abilitynum = pkx[0x15];
@@ -2415,10 +2483,10 @@ public class Form1 extends javax.swing.JFrame {
                 }
                 catch (UnsupportedEncodingException e) { nicknamestr = notOT = ot = "ERROR"; }
                 // 0x58, 0x59 - unused
-                move1 = BitConverter.ToUInt16(pkx, 0x5A);
-                move2 = BitConverter.ToUInt16(pkx, 0x5C);
-                move3 = BitConverter.ToUInt16(pkx, 0x5E);
-                move4 = BitConverter.ToUInt16(pkx, 0x60);
+                move1 = BitConverter.ToUInt16LE(pkx, 0x5A);
+                move2 = BitConverter.ToUInt16LE(pkx, 0x5C);
+                move3 = BitConverter.ToUInt16LE(pkx, 0x5E);
+                move4 = BitConverter.ToUInt16LE(pkx, 0x60);
                 move1_pp = pkx[0x62];
                 move2_pp = pkx[0x63];
                 move3_pp = pkx[0x64];
@@ -2427,10 +2495,10 @@ public class Form1 extends javax.swing.JFrame {
                 move2_ppu = pkx[0x67];
                 move3_ppu = pkx[0x68];
                 move4_ppu = pkx[0x69];
-                eggmove1 = BitConverter.ToUInt16(pkx, 0x6A);
-                eggmove2 = BitConverter.ToUInt16(pkx, 0x6C);
-                eggmove3 = BitConverter.ToUInt16(pkx, 0x6E);
-                eggmove4 = BitConverter.ToUInt16(pkx, 0x70);
+                eggmove1 = BitConverter.ToUInt16LE(pkx, 0x6A);
+                eggmove2 = BitConverter.ToUInt16LE(pkx, 0x6C);
+                eggmove3 = BitConverter.ToUInt16LE(pkx, 0x6E);
+                eggmove4 = BitConverter.ToUInt16LE(pkx, 0x70);
 
                 // 0x72 - Super Training Flag - Passed with pkx to new form
 
@@ -2462,8 +2530,8 @@ public class Form1 extends javax.swing.JFrame {
                 met_month = pkx[0xD5];
                 met_day = pkx[0xD6];
                 // 0xD7 - unused
-                eggloc = BitConverter.ToUInt16(pkx, 0xD8);
-                metloc = BitConverter.ToUInt16(pkx, 0xDA);
+                eggloc = BitConverter.ToUInt16LE(pkx, 0xD8);
+                metloc = BitConverter.ToUInt16LE(pkx, 0xDA);
                 ball = pkx[0xDC];
                 metlevel = pkx[0xDD] & 0x7F;
                 otgender = (pkx[0xDD]) >>> 7;
@@ -2577,7 +2645,7 @@ public class Form1 extends javax.swing.JFrame {
         {
             customcsv = defaultCSVcustom;
             RTB_OPTIONS.Text = defaultCSVcustom;
-            updatePreview();
+            updatePreview(null);
             return;
         }
         else return;
@@ -3326,6 +3394,11 @@ public class Form1 extends javax.swing.JFrame {
         RTB_OPTIONS.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
         RTB_OPTIONS.setLineWrap(true);
         RTB_OPTIONS.setRows(1);
+        RTB_OPTIONS.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                updatePreview(evt);
+            }
+        });
         jScrollPane1.setViewportView(RTB_OPTIONS);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
