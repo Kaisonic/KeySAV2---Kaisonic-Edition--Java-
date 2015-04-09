@@ -14,6 +14,12 @@ public class BitConverter {
         result |= ((int)bytes[offset]&0xff) << 8;
         return result & 0xffff;
     }
+    
+    public static int ToUInt16LE(byte[] bytes, int offset) {
+		int result = ((int)bytes[offset+1]&0xff) << 8;
+        result |= ((int)bytes[offset]&0xff);
+        return result & 0xffff;
+    }
 	
 	public static int ToInt32(byte[] bytes, int offset) {
 		int result = ((int)bytes[offset]&0xff);
@@ -41,10 +47,19 @@ public class BitConverter {
 
 	public static byte[] GetBytes(int value) {
 		byte[] bytes = new byte[4];
-		bytes[0] = (byte) (value >> 24);
-		bytes[1] = (byte) (value >> 16);
-		bytes[2] = (byte) (value >> 8);
+		bytes[0] = (byte) (value >>> 24);
+		bytes[1] = (byte) (value >>> 16);
+		bytes[2] = (byte) (value >>> 8);
 		bytes[3] = (byte) (value);
+		return bytes;
+	}
+    
+    public static byte[] GetBytesBE(int value) {
+		byte[] bytes = new byte[4];
+		bytes[0] = (byte) (value);
+		bytes[1] = (byte) (value >>> 8);
+		bytes[2] = (byte) (value >>> 16);
+		bytes[3] = (byte) (value >>> 24);
 		return bytes;
 	}
 	

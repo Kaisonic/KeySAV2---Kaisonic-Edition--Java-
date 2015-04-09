@@ -348,10 +348,11 @@ public class Form1 extends javax.swing.JFrame {
     {
         int chk = 0;
         for (int i = 8; i < 232; i += 2) // Loop through the entire PKX
-            chk += BitConverter.ToUInt16(pkx, i);
+            chk += BitConverter.ToUInt16LE(pkx, i);
 
-        int actualsum = BitConverter.ToUInt16(pkx, 0x6);
-        if ((BitConverter.ToUInt16(pkx, 0x8) > 750) || (BitConverter.ToUInt16(pkx, 0x90) != 0)) 
+        chk = chk & 0xffff;
+        int actualsum = BitConverter.ToUInt16LE(pkx, 0x6);
+        if ((BitConverter.ToUInt16LE(pkx, 0x8) > 750) || (BitConverter.ToUInt16LE(pkx, 0x90) != 0)) 
             return false;
         return (chk == actualsum);
     }
@@ -1526,7 +1527,7 @@ public class Form1 extends javax.swing.JFrame {
         catch (UnsupportedEncodingException e) { JOptionPane.showMessageDialog(this, "Error retrieving OT name.\n\n" + e, "Error", JOptionPane.ERROR_MESSAGE); }
         int tid = BitConverter.ToUInt16(pkx, 0xC);
         int sid = BitConverter.ToUInt16(pkx, 0xE);
-        int tsv = ((tid&0xff) ^ (sid&0xff)) >>> 4;
+        int tsv = (tid ^ sid) >>> 4;
         if (JOptionPane.showConfirmDialog(this, String.format("Success!\nYour first Pokemon's TSV: %04d\nOT: %s\n\nClick OK to save your keystream.", tsv, ot), "Prompt", JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION)
         {
             Path fi = Paths.get(TB_FileBV1.getText());
@@ -1653,8 +1654,8 @@ public class Form1 extends javax.swing.JFrame {
             {
                 for (int j = 0; j < 232; j++)   // Stuff the Data
                 {
-                    pstream1[i][j] = (byte)(estream1[i][j]&0xff ^ emptyekx[j]&0xff);
-                    pstream2[i][j] = (byte)(estream2[i][j]&0xff ^ emptyekx[j]&0xff);
+                    pstream1[i][j] = (byte)((estream1[i][j]&0xff) ^ (emptyekx[j]&0xff));
+                    pstream2[i][j] = (byte)((estream2[i][j]&0xff) ^ (emptyekx[j]&0xff));
                 }
             }
 
@@ -1666,7 +1667,7 @@ public class Form1 extends javax.swing.JFrame {
             byte[][] polekx = new byte[6][232];
             for (int i = 0; i < 6; i++)
                 for (int j = 0; j < 232; j++) // Save file 1 has them in the second box. XOR them out with the Box2 Polluted Stream
-                    polekx[i][j] = (byte)(break1[offset[1] + 232 * i + j]&0xff ^ pstream2[i][j]&0xff);
+                    polekx[i][j] = (byte)((break1[offset[1] + 232 * i + j]&0xff) ^ (pstream2[i][j]&0xff));
             int[] encryptionconstants = new int[6]; // Array for all 6 Encryption Constants. 
             int valid = 0;
             for (int i = 0; i < 6; i++)
@@ -1713,10 +1714,10 @@ public class Form1 extends javax.swing.JFrame {
                 // Let's calculate the actual checksum of our empty pkx.
                 int chk = 0;
                 for (int i = 8; i < 232; i += 2) // Loop through the entire PKX
-                    chk += BitConverter.ToUInt16(empty, i);
+                    chk += BitConverter.ToUInt16LE(empty, i);
 
                 // Apply New Checksum
-                System.arraycopy(BitConverter.GetBytes(chk), 0, empty, 06, 2);
+                System.arraycopy(BitConverter.GetBytesBE(chk), 0, empty, 06, 2);
 
                 // Okay. So we're now fixed with the proper blank PKX. Encrypt it!
                 System.arraycopy(empty, 0, emptyekx, 0, 232);
@@ -1730,13 +1731,13 @@ public class Form1 extends javax.swing.JFrame {
                 // Include empty data
                 savkey[0x10] = empty[0xE0]; savkey[0x11] = empty[0xE1]; savkey[0x12] = empty[0xE2]; savkey[0x13] = empty[0xE3];
                 // Copy over the scan offsets.
-                System.arraycopy(BitConverter.GetBytes(offset[0]), 0, savkey, 0x1C, 4);
+                System.arraycopy(BitConverter.GetBytesBE(offset[0]), 0, savkey, 0x1C, 4);
                 for (int i = 0; i < 30; i++)    // Times we're iterating
                 {
                     for (int j = 0; j < 232; j++)   // Stuff the Data temporarily...
                     {
-                        savkey[0x100 + i * 232 + j] = (byte)(estream1[i][j]&0xff ^ emptyekx[j]&0xff);
-                        savkey[0x100 + (30 * 232) + i * 232 + j] = (byte)(estream2[i][j]&0xff ^ emptyekx[j]&0xff);
+                        savkey[0x100 + i * 232 + j] = (byte)((estream1[i][j]&0xff) ^ (emptyekx[j]&0xff));
+                        savkey[0x100 + (30 * 232) + i * 232 + j] = (byte)((estream2[i][j]&0xff) ^ (emptyekx[j]&0xff));
                     }
                 }
 
@@ -1745,8 +1746,8 @@ public class Form1 extends javax.swing.JFrame {
                 byte[] data2 = new byte[232];
                 for (int i = 0; i < 232; i++)
                 {
-                    data1[i] = (byte)(savkey[0x100 + i]&0xff ^ break1[offset[0] + i]&0xff);
-                    data2[i] = (byte)(savkey[0x100 + i]&0xff ^ break2[offset[0] + i]&0xff);
+                    data1[i] = (byte)((savkey[0x100 + i]&0xff) ^ (break1[offset[0] + i]&0xff));
+                    data2[i] = (byte)((savkey[0x100 + i]&0xff) ^ (break2[offset[0] + i]&0xff));
                 }
                 byte[] data1a = new byte[232]; byte[] data2a = new byte[232];
                 System.arraycopy(data1, 0, data1a, 0, 232); System.arraycopy(data2, 0, data2a, 0, 232);
@@ -1756,16 +1757,18 @@ public class Form1 extends javax.swing.JFrame {
                 int chk2 = 0;
                 for (int i = 8; i < 232; i += 2)
                 {
-                    chk1 += BitConverter.ToUInt16(pkx1, i);
-                    chk2 += BitConverter.ToUInt16(pkx2, i);
+                    chk1 += BitConverter.ToUInt16LE(pkx1, i);
+                    chk2 += BitConverter.ToUInt16LE(pkx2, i);
                 }
-                if (verifyCHK(pkx1) && (BitConverter.ToUInt16(pkx1, 8) != 0))
+                int test = BitConverter.ToUInt16LE(pkx1, 8);
+                int test2 = BitConverter.ToUInt16LE(pkx2, 8);
+                if (verifyCHK(pkx1) && (BitConverter.ToUInt16LE(pkx1, 8) != 0))
                 {
                     // Save 1 has the box1 data
                     pkx = pkx1;
                     success = 1;
                 }
-                else if (verifyCHK(pkx2) && (BitConverter.ToUInt16(pkx2, 8) != 0))
+                else if (verifyCHK(pkx2) && (BitConverter.ToUInt16LE(pkx2, 8) != 0))
                 {
                     // Save 2 has the box1 data
                     pkx = pkx2;
@@ -1805,11 +1808,11 @@ public class Form1 extends javax.swing.JFrame {
             byte[] diff2 = new byte[31*30*232];
             for(int i = 0; i < 31*30*232; ++i)
             {
-                diff1[i] = (byte)(break1[offset[0] + i]&0xff ^ break1[offset[0] + i - 0x7F000]&0xff);
+                diff1[i] = (byte)((break1[offset[0] + i]&0xff) ^ (break1[offset[0] + i - 0x7F000]&0xff));
             }
             for(int i = 0; i < 31*30*232; ++i)
             {
-                diff2[i] = (byte)(break2[offset[0] + i]&0xff ^ break2[offset[0] + i - 0x7F000]&0xff);
+                diff2[i] = (byte)((break2[offset[0] + i]&0xff) ^ (break2[offset[0] + i - 0x7F000]&0xff));
             }
             if (Arrays.equals(diff1, diff2))
             {
@@ -1875,9 +1878,9 @@ public class Form1 extends javax.swing.JFrame {
                 String ot = "";
                 try { ot = TrimFromZero(new String(pkx, 0xB0, 24, "UTF-16LE")); }
                 catch (UnsupportedEncodingException e) { JOptionPane.showMessageDialog(this, "Error retrieving OT name.\n\n" + e, "Error", JOptionPane.ERROR_MESSAGE); }
-                int tid = BitConverter.ToUInt16(pkx, 0xC);
-                int sid = BitConverter.ToUInt16(pkx, 0xE);
-                int tsv = ((tid&0xff) ^ (sid&0xff)) >>> 4;
+                int tid = BitConverter.ToUInt16LE(pkx, 0xC);
+                int sid = BitConverter.ToUInt16LE(pkx, 0xE);
+                int tsv = (tid ^ sid) >>> 4;
                 Path newPath = Paths.get(path_exe, "data", CleanFileName(String.format("SAV Key - %s - (%05d.%05d) - TSV %04d.bin", ot, tid, sid, tsv)));
                 boolean doit = true;
                 if (Files.exists(newPath))
@@ -1915,7 +1918,7 @@ public class Form1 extends javax.swing.JFrame {
         if (arr1.length != arr2.length) return null;
         byte[] arr3 = new byte[arr1.length];
         for (int i = 0; i < arr1.length; i++)
-            arr3[i] = (byte)(arr1[i]&0xff ^ arr2[i]&0xff);
+            arr3[i] = (byte)((arr1[i]&0xff) ^ (arr2[i]&0xff));
         return arr3;
     }
 
