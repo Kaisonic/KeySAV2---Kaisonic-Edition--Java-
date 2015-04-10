@@ -913,7 +913,7 @@ public class Form1 extends javax.swing.JFrame {
         String pkrsCured = (data.PKRS_Strain > 0 && data.PKRS_Duration == 0) ? checkmark : "";
         String OTgender = (data.otgender == 1) ? femalemark : malemark;
         String metLevel = Integer.toString(data.metlevel);
-        String OTfriendship = Integer.toString(data.OTfriendship);
+        String OTfriendship = Integer.toString(data.OTfriendship&0xff);
         String OTaffection = Integer.toString(data.OTaffection);
         String stepsToHatch = (!data.isegg) ? "" : Integer.toString((data.OTfriendship * 255));
 
@@ -2450,29 +2450,29 @@ public class Form1 extends javax.swing.JFrame {
                 TID = BitConverter.ToUInt16LE(pkx, 0x0C);
                 SID = BitConverter.ToUInt16LE(pkx, 0x0E);
                 exp = BitConverter.ToUInt32(pkx, 0x10);
-                ability = pkx[0x14];
-                abilitynum = pkx[0x15];
+                ability = pkx[0x14]&0xff;
+                abilitynum = pkx[0x15]&0xff;
                 // 0x16, 0x17 - unknown
                 PID = BitConverter.ToUInt32(pkx, 0x18);
-                nature = pkx[0x1C];
-                feflag = pkx[0x1D] % 2;
-                genderflag = (pkx[0x1D] >>> 1) & 0x3;
-                altforms = (pkx[0x1D] >>> 3);
-                HP_EV = pkx[0x1E];
-                ATK_EV = pkx[0x1F];
-                DEF_EV = pkx[0x20];
-                SPA_EV = pkx[0x22];
-                SPD_EV = pkx[0x23];
-                SPE_EV = pkx[0x21];
-                cnt_cool = pkx[0x24];
-                cnt_beauty = pkx[0x25];
-                cnt_cute = pkx[0x26];
-                cnt_smart = pkx[0x27];
-                cnt_tough = pkx[0x28];
-                cnt_sheen = pkx[0x29];
-                markings = pkx[0x2A];
-                PKRS_Strain = pkx[0x2B] >>> 4;
-                PKRS_Duration = pkx[0x2B] % 0x10;
+                nature = pkx[0x1C]&0xff;
+                feflag = (pkx[0x1D]&0xff) % 2;
+                genderflag = ((pkx[0x1D]&0xff) >>> 1) & 0x3;
+                altforms = ((pkx[0x1D]&0xff) >>> 3);
+                HP_EV = pkx[0x1E]&0xff;
+                ATK_EV = pkx[0x1F]&0xff;
+                DEF_EV = pkx[0x20]&0xff;
+                SPA_EV = pkx[0x22]&0xff;
+                SPD_EV = pkx[0x23]&0xff;
+                SPE_EV = pkx[0x21]&0xff;
+                cnt_cool = pkx[0x24]&0xff;
+                cnt_beauty = pkx[0x25]&0xff;
+                cnt_cute = pkx[0x26]&0xff;
+                cnt_smart = pkx[0x27]&0xff;
+                cnt_tough = pkx[0x28]&0xff;
+                cnt_sheen = pkx[0x29]&0xff;
+                markings = pkx[0x2A]&0xff;
+                PKRS_Strain = (pkx[0x2B]&0xff) >>> 4;
+                PKRS_Duration = (pkx[0x2B]&0xff) % 0x10;
 
                 // Block B
                 try
@@ -2515,7 +2515,7 @@ public class Form1 extends javax.swing.JFrame {
 
                 // Block C
 
-                boolean notOTG = (pkx[0x92] != 0);
+                boolean notOTG = ((pkx[0x92]&0xff) != 0);
                 // Memory Editor edits everything else with pkx in a new form
 
                 // Block D
@@ -2533,8 +2533,8 @@ public class Form1 extends javax.swing.JFrame {
                 eggloc = BitConverter.ToUInt16LE(pkx, 0xD8);
                 metloc = BitConverter.ToUInt16LE(pkx, 0xDA);
                 ball = pkx[0xDC];
-                metlevel = pkx[0xDD] & 0x7F;
-                otgender = (pkx[0xDD]) >>> 7;
+                metlevel = (pkx[0xDD]&0xff) & 0x7F;
+                otgender = (pkx[0xDD]&0xff) >>> 7;
                 encountertype = pkx[0xDE];
                 gamevers = pkx[0xDF];
                 countryID = pkx[0xE0];
