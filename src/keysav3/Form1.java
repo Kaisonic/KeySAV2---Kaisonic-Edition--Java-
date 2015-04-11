@@ -13,12 +13,15 @@ import javax.swing.JFileChooser;
 import javax.swing.filechooser.*;
 import java.awt.datatransfer.StringSelection;
 import java.awt.Toolkit;
+import java.awt.Image;
+import java.awt.event.WindowListener;
+import java.awt.event.WindowEvent;
 
 /**
  *
  * @author Thomas
  */
-public class Form1 extends javax.swing.JFrame {
+public class Form1 extends javax.swing.JFrame implements WindowListener {
 
     /**
      * Creates new form Form1
@@ -43,9 +46,10 @@ public class Form1 extends javax.swing.JFrame {
         updatePreview(null);
         
         // Load configuration, initialize strings
-        // loadINI();
-        // Set onFormClose to run when program is closed
+        loadINI();
+        onFormClose();
         InitializeStrings();
+        loadProgramIcons();
         
         // Create some data arrays for our getLevel function
         // This data doesn't change, ever
@@ -104,7 +108,7 @@ public class Form1 extends javax.swing.JFrame {
     // Dumping Usage
     private String binType = "sav";
     private String vidpath = "";
-    private String savpath = "D:\\Documents\\Pokemon\\Generation 6\\Y Saves";
+    private String savpath = "";
     private String savkeypath = "";
     private String vidkeypath = "";
     private String custom1 = "";
@@ -137,10 +141,52 @@ public class Form1 extends javax.swing.JFrame {
     // @TODO
     
     // Utility
-    public void onFormClose()
+    private void onFormClose()
+    {
+        addWindowListener(this);
+    }
+    
+    @Override
+    public void windowActivated(WindowEvent e)
+    {
+        // Do nothing
+    }
+    
+    @Override
+    public void windowClosed(WindowEvent e)
+    {
+        // Do nothing
+    }
+    
+    @Override
+    public void windowClosing(WindowEvent e)
     {
         // Save the ini file
         saveINI();
+    }
+    
+    @Override
+    public void windowDeactivated(WindowEvent e)
+    {
+        // Do nothing
+    }
+    
+    @Override
+    public void windowDeiconified(WindowEvent e)
+    {
+        // Do nothing
+    }
+    
+    @Override
+    public void windowIconified(WindowEvent e)
+    {
+        // Do nothing
+    }
+    
+    @Override
+    public void windowOpened(WindowEvent e)
+    {
+        // Do nothing
     }
     
     private void loadINI()
@@ -160,7 +206,7 @@ public class Form1 extends javax.swing.JFrame {
                 Files.createFile(Paths.get(datapath, "config.ini"));
             else
             {
-                ListIterator<String> config = Files.readAllLines(Paths.get(datapath, "config.ini"), Charset.forName("UTF-16LE")).listIterator();
+                ListIterator<String> config = Files.readAllLines(Paths.get(datapath, "config.ini"), Charset.forName("UTF-8")).listIterator();
 
                 // Load the data
                 tab_Main.setSelectedIndex(Integer.parseInt(config.next()));
@@ -168,25 +214,28 @@ public class Form1 extends javax.swing.JFrame {
                 custom2 = config.next();
                 custom3 = config.next();
                 customcsv = config.next();
-                custom1b = (Integer.parseInt(config.next()) != 0);
-                custom2b = (Integer.parseInt(config.next()) != 0);
-                custom3b = (Integer.parseInt(config.next()) != 0);
+                custom1b = Boolean.parseBoolean(config.next());
+                custom2b = Boolean.parseBoolean(config.next());
+                custom3b = Boolean.parseBoolean(config.next());
                 CB_ExportStyle.setSelectedIndex(Integer.parseInt(config.next()));
                 CB_MainLanguage.setSelectedIndex(Integer.parseInt(config.next()));
                 CB_Game.setSelectedIndex(Integer.parseInt(config.next()));
-                CHK_MarkFirst.setSelected(Integer.parseInt(config.next()) != 0);
-                CHK_Split.setSelected(Integer.parseInt(config.next()) != 0);
-                CHK_BoldIVs.setSelected(Integer.parseInt(config.next()) != 0);
-                CHK_ShowESV.setSelected(Integer.parseInt(config.next()) != 0);
-                CHK_NameQuotes.setSelected(Integer.parseInt(config.next()) != 0);
+                CHK_MarkFirst.setSelected(Boolean.parseBoolean(config.next()));
+                CHK_Split.setSelected(Boolean.parseBoolean(config.next()));
+                CHK_BoldIVs.setSelected(Boolean.parseBoolean(config.next()));
+                CHK_ShowESV.setSelected(Boolean.parseBoolean(config.next()));
+                CHK_NameQuotes.setSelected(Boolean.parseBoolean(config.next()));
                 CB_BoxColor.setSelectedIndex(Integer.parseInt(config.next()));
-                CHK_ColorBox.setSelected(Integer.parseInt(config.next()) != 0);
-                CHK_HideFirst.setSelected(Integer.parseInt(config.next()) != 0);
+                CHK_ColorBox.setSelected(Boolean.parseBoolean(config.next()));
+                CHK_HideFirst.setSelected(Boolean.parseBoolean(config.next()));
                 this.setSize(Integer.parseInt(config.next()), Integer.parseInt(config.next()));
-                CHK_Unicode.setSelected(Integer.parseInt(config.next()) != 0);
+                CHK_Unicode.setSelected(Boolean.parseBoolean(config.next()));
+                vidpath = config.next();
+                savpath = config.next();
+                lastOpenedFilename = config.next();
             }
         }
-        catch (IOException e) { JOptionPane.showMessageDialog(this, "Ini config file loading failed.\n\n" + e, "Error", JOptionPane.ERROR_MESSAGE); }
+        catch (Exception e) { JOptionPane.showMessageDialog(this, "Ini config file loading failed.\n\n" + e, "Error", JOptionPane.ERROR_MESSAGE); }
     }
     
     private void saveINI()
@@ -197,7 +246,7 @@ public class Form1 extends javax.swing.JFrame {
             if (!Files.isDirectory(Paths.get(datapath))) // Create data path if it doesn't exist.
                 Files.createDirectory(Paths.get(datapath));
             
-            // Load .ini data
+            // Save .ini data
             if (!Files.exists(Paths.get(datapath, "config.ini")))
                 Files.createFile(Paths.get(datapath, "config.ini"));
             else
@@ -226,10 +275,24 @@ public class Form1 extends javax.swing.JFrame {
                 config.add(Integer.toString(this.getHeight()));
                 config.add(Integer.toString(this.getWidth()));
                 config.add(Boolean.toString(CHK_Unicode.isSelected()));
-                Files.write(Paths.get(datapath, "config.ini"), config, Charset.forName("UTF-16LE"));
+                config.add(vidpath);
+                config.add(savpath);
+                config.add(lastOpenedFilename);
+                Files.write(Paths.get(datapath, "config.ini"), config, Charset.forName("UTF-8"));
             }
         }
-        catch (IOException e) { JOptionPane.showMessageDialog(this, "Ini config file saving failed.\n\n" + e, "Error", JOptionPane.ERROR_MESSAGE); }
+        catch (Exception e) { JOptionPane.showMessageDialog(this, "Ini config file saving failed.\n\n" + e, "Error", JOptionPane.ERROR_MESSAGE); }
+    }
+    
+    // Load the program icons
+    private void loadProgramIcons()
+    {
+        ArrayList<Image> theImages = new ArrayList(4);
+        theImages.add(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/keysav3/icon.png")));
+        theImages.add(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/keysav3/icon_16x16.png")));
+        theImages.add(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/keysav3/icon_30x32.png")));
+        theImages.add(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/keysav3/icon_45x48.png")));
+        this.setIconImages(theImages);
     }
     
     // RNG
@@ -913,7 +976,7 @@ public class Form1 extends javax.swing.JFrame {
         String pkrsCured = (data.PKRS_Strain > 0 && data.PKRS_Duration == 0) ? checkmark : "";
         String OTgender = (data.otgender == 1) ? femalemark : malemark;
         String metLevel = Integer.toString(data.metlevel);
-        String OTfriendship = Integer.toString(data.OTfriendship&0xff);
+        String OTfriendship = Integer.toString(data.OTfriendship);
         String OTaffection = Integer.toString(data.OTaffection);
         String stepsToHatch = (!data.isegg) ? "" : Integer.toString((data.OTfriendship * 255));
 
@@ -1041,7 +1104,7 @@ public class Form1 extends javax.swing.JFrame {
 
             // Add the result to the CSV data if needed
             if (CB_ExportStyle.getSelectedIndex() == 6 || CB_ExportStyle.getSelectedIndex() == 7)
-                csvdata += result + "\r\n";
+                csvdata += result + "\n";
 
             if (isSAV && ghost && CHK_MarkFirst.isSelected()) result = "~" + result;
             dumpedcounter++;
@@ -1301,14 +1364,15 @@ public class Form1 extends javax.swing.JFrame {
         {
             JFileChooser savecsv = new JFileChooser((isSAV) ? savpath : vidpath);
             String theName = (lastOpenedFilename.equals("")) ? "KeySAV Data Dump.csv" : lastOpenedFilename.substring(0, lastOpenedFilename.length() - 4) + ".csv";
-            File suggested = new File(((isSAV) ? savpath : vidpath) + File.pathSeparator + theName);
+            File suggested = new File(((isSAV) ? savpath : vidpath) + File.separatorChar + theName);
             savecsv.addChoosableFileFilter(new FileNameExtensionFilter("Spreadsheet", "csv"));
+            savecsv.setSelectedFile(suggested);
             if (savecsv.showSaveDialog(this) == JFileChooser.APPROVE_OPTION)
             {
                 File file = savecsv.getSelectedFile();
                 List<String> csvdataw = new ArrayList();
                 csvdataw.add(csvdata);
-                try { Files.write(file.toPath(), csvdataw, Charset.forName("UTF-16LE")); }
+                try { Files.write(file.toPath(), csvdataw, Charset.forName("UTF-8")); }
                 catch (IOException e) { JOptionPane.showMessageDialog(this, "Error writing CSV file.\n\n" + e, "Error", JOptionPane.ERROR_MESSAGE); }
             }
         }
@@ -2428,7 +2492,7 @@ public class Form1 extends javax.swing.JFrame {
             public boolean
                 isegg, isnick, isshiny;
 
-            public short
+            public int
                 TSV, ESV,
                 move1_pp, move2_pp, move3_pp, move4_pp,
                 move1_ppu, move2_ppu, move3_ppu, move4_ppu,
@@ -2487,14 +2551,14 @@ public class Form1 extends javax.swing.JFrame {
                 move2 = BitConverter.ToUInt16LE(pkx, 0x5C);
                 move3 = BitConverter.ToUInt16LE(pkx, 0x5E);
                 move4 = BitConverter.ToUInt16LE(pkx, 0x60);
-                move1_pp = pkx[0x62];
-                move2_pp = pkx[0x63];
-                move3_pp = pkx[0x64];
-                move4_pp = pkx[0x65];
-                move1_ppu = pkx[0x66];
-                move2_ppu = pkx[0x67];
-                move3_ppu = pkx[0x68];
-                move4_ppu = pkx[0x69];
+                move1_pp = pkx[0x62]&0xff;
+                move2_pp = pkx[0x63]&0xff;
+                move3_pp = pkx[0x64]&0xff;
+                move4_pp = pkx[0x65]&0xff;
+                move1_ppu = pkx[0x66]&0xff;
+                move2_ppu = pkx[0x67]&0xff;
+                move3_ppu = pkx[0x68]&0xff;
+                move4_ppu = pkx[0x69]&0xff;
                 eggmove1 = BitConverter.ToUInt16LE(pkx, 0x6A);
                 eggmove2 = BitConverter.ToUInt16LE(pkx, 0x6C);
                 eggmove3 = BitConverter.ToUInt16LE(pkx, 0x6E);
@@ -2520,27 +2584,27 @@ public class Form1 extends javax.swing.JFrame {
 
                 // Block D
                 // 0xC8, 0xC9 - unused
-                OTfriendship = pkx[0xCA];
-                OTaffection = pkx[0xCB]; // Handled by Memory Editor
+                OTfriendship = pkx[0xCA]&0xff;
+                OTaffection = pkx[0xCB]&0xff; // Handled by Memory Editor
                 // 0xCC, 0xCD, 0xCE, 0xCF, 0xD0
-                egg_year = pkx[0xD1];
-                egg_month = pkx[0xD2];
-                egg_day = pkx[0xD3];
-                met_year = pkx[0xD4];
-                met_month = pkx[0xD5];
-                met_day = pkx[0xD6];
+                egg_year = pkx[0xD1]&0xff;
+                egg_month = pkx[0xD2]&0xff;
+                egg_day = pkx[0xD3]&0xff;
+                met_year = pkx[0xD4]&0xff;
+                met_month = pkx[0xD5]&0xff;
+                met_day = pkx[0xD6]&0xff;
                 // 0xD7 - unused
                 eggloc = BitConverter.ToUInt16LE(pkx, 0xD8);
                 metloc = BitConverter.ToUInt16LE(pkx, 0xDA);
-                ball = pkx[0xDC];
+                ball = pkx[0xDC]&0xff;
                 metlevel = (pkx[0xDD]&0xff) & 0x7F;
                 otgender = (pkx[0xDD]&0xff) >>> 7;
-                encountertype = pkx[0xDE];
-                gamevers = pkx[0xDF];
-                countryID = pkx[0xE0];
-                regionID = pkx[0xE1];
-                dsregID = pkx[0xE2];
-                otlang = pkx[0xE3];
+                encountertype = pkx[0xDE]&0xff;
+                gamevers = pkx[0xDF]&0xff;
+                countryID = pkx[0xE0]&0xff;
+                regionID = pkx[0xE1]&0xff;
+                dsregID = pkx[0xE2]&0xff;
+                otlang = pkx[0xE3]&0xff;
 
                 if (genderflag == 0)
                     genderstring = "♂";
@@ -2550,8 +2614,8 @@ public class Form1 extends javax.swing.JFrame {
 
                 hptype = (15 * ((HP_IV & 1) + 2 * (ATK_IV & 1) + 4 * (DEF_IV & 1) + 8 * (SPE_IV & 1) + 16 * (SPA_IV & 1) + 32 * (SPD_IV & 1))) / 63 + 1;
 
-                TSV = (short)((TID ^ SID) >>> 4);
-                ESV = (short)(((PID >>> 16) ^ (PID & 0xFFFF)) >>> 4);
+                TSV = ((TID ^ SID) >>> 4);
+                ESV = (int)(((PID >>> 16) ^ (PID & 0xFFFF)) >>> 4);
 
                 isshiny = (TSV == ESV);
             }
@@ -2834,7 +2898,7 @@ public class Form1 extends javax.swing.JFrame {
 
         TB_BV.setEditable(false);
 
-        L_KeyBV.setText("L_KeyBV");
+        L_KeyBV.setText(" ");
 
         B_GoBV.setText("Go");
         B_GoBV.setEnabled(false);
@@ -2854,7 +2918,7 @@ public class Form1 extends javax.swing.JFrame {
 
         RTB_VID.setEditable(false);
         RTB_VID.setColumns(20);
-        RTB_VID.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
+        RTB_VID.setFont(new java.awt.Font("DejaVu Sans", 0, 11)); // NOI18N
         RTB_VID.setRows(1);
         RTB_VID_Scroll.setViewportView(RTB_VID);
 
@@ -2912,9 +2976,10 @@ public class Form1 extends javax.swing.JFrame {
 
         TB_SAV.setEditable(false);
 
-        L_KeySAV.setText("L_KeySAV");
+        L_KeySAV.setText(" ");
 
         B_GoSAV.setText("Go");
+        B_GoSAV.setEnabled(false);
         B_GoSAV.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 dumpSAV(evt);
@@ -2924,6 +2989,7 @@ public class Form1 extends javax.swing.JFrame {
         L_BoxSAV.setText("Box:");
 
         CB_BoxStart.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "All", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31" }));
+        CB_BoxStart.setEnabled(false);
         CB_BoxStart.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 changeboxsetting(evt);
@@ -2931,6 +2997,7 @@ public class Form1 extends javax.swing.JFrame {
         });
 
         B_BKP_SAV.setText("Backup Save");
+        B_BKP_SAV.setEnabled(false);
         B_BKP_SAV.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 B_BKP_SAV_Click(evt);
@@ -2939,11 +3006,12 @@ public class Form1 extends javax.swing.JFrame {
 
         RTB_SAV.setEditable(false);
         RTB_SAV.setColumns(20);
-        RTB_SAV.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
+        RTB_SAV.setFont(new java.awt.Font("DejaVu Sans", 0, 11)); // NOI18N
         RTB_SAV.setRows(1);
         RTB_SAV_Scroll.setViewportView(RTB_SAV);
 
         CB_BoxEnd.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1" }));
+        CB_BoxEnd.setEnabled(false);
 
         L_BoxThru.setText("-");
 
@@ -3391,7 +3459,7 @@ public class Form1 extends javax.swing.JFrame {
 
         RTB_OPTIONS.setEditable(false);
         RTB_OPTIONS.setColumns(20);
-        RTB_OPTIONS.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
+        RTB_OPTIONS.setFont(new java.awt.Font("DejaVu Sans", 0, 11)); // NOI18N
         RTB_OPTIONS.setLineWrap(true);
         RTB_OPTIONS.setRows(1);
         RTB_OPTIONS.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -3417,7 +3485,7 @@ public class Form1 extends javax.swing.JFrame {
 
         RTB_Preview.setEditable(false);
         RTB_Preview.setColumns(20);
-        RTB_Preview.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
+        RTB_Preview.setFont(new java.awt.Font("DejaVu Sans", 0, 11)); // NOI18N
         RTB_Preview.setRows(1);
         RTB_Preview.setMaximumSize(new java.awt.Dimension(164, 18));
         jScrollPane2.setViewportView(RTB_Preview);
