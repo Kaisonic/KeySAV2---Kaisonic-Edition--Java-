@@ -1565,7 +1565,7 @@ public class Form1 extends javax.swing.JFrame implements WindowListener {
         // If old exploit does not properly decrypt slot1...
         byte[] pkx = decryptArray(ekx1);
         if (!verifyCHK(pkx))
-        { JOptionPane.showMessageDialog(this, "Improperly set up Battle Videos. Please follow directions and try again", "Error", JOptionPane.ERROR_MESSAGE); return; }
+        { JOptionPane.showMessageDialog(this, "Your Battle Videos are not set up properly. See \"Help\" and follow directions on how to properly set up your videos.", "Error", JOptionPane.ERROR_MESSAGE); return; }
 
         // Start filling up our key...
         // Copy in the unique CTR encryption data to ID the video...
@@ -1611,7 +1611,7 @@ public class Form1 extends javax.swing.JFrame implements WindowListener {
         int tid = BitConverter.ToUInt16LE(pkx, 0xC);
         int sid = BitConverter.ToUInt16LE(pkx, 0xE);
         int tsv = (tid ^ sid) >>> 4;
-        if (JOptionPane.showConfirmDialog(this, String.format("Success!\nYour first Pokemon's TSV: %04d\nOT: %s\n\nClick OK to save your keystream.", tsv, ot), "Prompt", JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION)
+        if (JOptionPane.showConfirmDialog(this, String.format("Success!\nYour first Pokemon's TSV: %04d\nOT: %s\n\nClick OK to save your keystream.", tsv, ot), "Prompt", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE) == JOptionPane.OK_OPTION)
         {
             Path fi = Paths.get(TB_FileBV1.getText());
             String newFile = CleanFileName(String.format("BV Key - %s.bin", fi.getFileName().toString().split("(-)")[0]));
@@ -1619,7 +1619,7 @@ public class Form1 extends javax.swing.JFrame implements WindowListener {
             boolean doit = true;
             if (Files.exists(newPath))
             {
-                if (JOptionPane.showConfirmDialog(this, "Keystream already exists!\n\nOverwrite?", "Prompt", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
+                if (JOptionPane.showConfirmDialog(this, "Keystream already exists!\n\nOverwrite?", "Prompt", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE) == JOptionPane.YES_OPTION)
                 {
                     try { Files.delete(newPath); }
                     catch (IOException e) { JOptionPane.showMessageDialog(this, "Error deleting keystream file.\n\n" + e, "Error", JOptionPane.ERROR_MESSAGE);}
@@ -1955,7 +1955,7 @@ public class Form1 extends javax.swing.JFrame implements WindowListener {
             }
 
             // Save file diff is done, now we're essentially done. Save the keystream.
-            if (JOptionPane.showConfirmDialog(this, "Keystreams were successfully bruteforced!\n\nClick OK to save your keystream.", "Prompt", JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION)
+            if (JOptionPane.showConfirmDialog(this, "Keystreams were successfully bruteforced!\n\nClick OK to save your keystream.", "Prompt", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE) == JOptionPane.OK_OPTION)
             {
                 // From our PKX data, fetch some details to name our key file...
                 String ot = "";
@@ -1968,7 +1968,7 @@ public class Form1 extends javax.swing.JFrame implements WindowListener {
                 boolean doit = true;
                 if (Files.exists(newPath))
                 {
-                    if (JOptionPane.showConfirmDialog(this, "Keystream already exists!\n\nOverwrite?", "Prompt", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
+                    if (JOptionPane.showConfirmDialog(this, "Keystream already exists!\n\nOverwrite?", "Prompt", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE) == JOptionPane.YES_OPTION)
                     {
                         try { Files.delete(newPath); }
                         catch (IOException e) { JOptionPane.showMessageDialog(this, "Error deleting keystream file.\n\n" + e, "Error", JOptionPane.ERROR_MESSAGE);}
@@ -2220,6 +2220,7 @@ public class Form1 extends javax.swing.JFrame implements WindowListener {
             CHK_ColorBox.setEnabled(false);
             CB_BoxColor.setEnabled(false);
             CHK_R_Table.setEnabled(false);
+            CHK_R_Table.setSelected(false);
             CHK_NameQuotes.setEnabled(false);
             B_ResetCSV.setEnabled(false);
             RTB_OPTIONS.setEditable(false); RTB_OPTIONS.setText("{0} - {1} - {2} ({3}) - {4} - {5} - {6}.{7}.{8}.{9}.{10}.{11} - {12} - {13}");
@@ -2620,7 +2621,7 @@ public class Form1 extends javax.swing.JFrame implements WindowListener {
         Path newPath = Paths.get(bakpath, newFile);
         if (Files.exists(newPath))
         {
-            if (JOptionPane.showConfirmDialog(this, "Save already exists!\n\nOverwrite?", "Prompt", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
+            if (JOptionPane.showConfirmDialog(this, "Save already exists!\n\nOverwrite?", "Prompt", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE) == JOptionPane.YES_OPTION)
             {
                 try { Files.delete(newPath); }
                 catch (IOException e) { JOptionPane.showMessageDialog(this, "Error deleting save file.\n\n" + e, "Error", JOptionPane.ERROR_MESSAGE); }
@@ -2635,7 +2636,7 @@ public class Form1 extends javax.swing.JFrame implements WindowListener {
         JOptionPane.showMessageDialog(this, "Save backed up to:\n\n" + newPath.toString());
     }
 
-    private void B_BKP_BV_Click()
+    private void B_BKP_BV_Click(java.awt.event.ActionEvent evt)
     {
         Path fi = Paths.get(TB_BV.getText());
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
@@ -2644,7 +2645,7 @@ public class Form1 extends javax.swing.JFrame implements WindowListener {
         Path newPath = Paths.get(bakpath, newFile);
         if (Files.exists(newPath))
         {
-            if (JOptionPane.showConfirmDialog(this, "Video already exists!\n\nOverwrite?", "Prompt", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
+            if (JOptionPane.showConfirmDialog(this, "Video already exists!\n\nOverwrite?", "Prompt", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE) == JOptionPane.YES_OPTION)
             {
                 try { Files.delete(newPath); }
                 catch (IOException e) { JOptionPane.showMessageDialog(this, "Error deleting save file.\n\n" + e, "Error", JOptionPane.ERROR_MESSAGE); }
@@ -2685,17 +2686,12 @@ public class Form1 extends javax.swing.JFrame implements WindowListener {
 
     private void B_ResetCSV_Click(java.awt.event.ActionEvent evt)
     {
-        /*
-        DialogResult box = MessageBox.Show("This will erase your current CSV custom format and replace it with the default CSV custom format, which includes ALL columns.\n\nContinue?", "Warning", MessageBoxButtons.YesNo);
-        if (box == DialogResult.Yes)
+        if (JOptionPane.showConfirmDialog(this, "This will erase your current CSV custom format and replace it with the default CSV custom format, which includes ALL columns.\n\nContinue?", "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE) == JOptionPane.YES_OPTION)
         {
             customcsv = defaultCSVcustom;
-            RTB_OPTIONS.Text = defaultCSVcustom;
+            RTB_OPTIONS.setText(defaultCSVcustom);
             updatePreview(null);
-            return;
         }
-        else return;
-        */
     }
 
     private void toggleIVAll(java.awt.event.ItemEvent evt)
@@ -2895,6 +2891,11 @@ public class Form1 extends javax.swing.JFrame implements WindowListener {
 
         B_BKP_BV.setText("Backup BV");
         B_BKP_BV.setEnabled(false);
+        B_BKP_BV.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                B_BKP_BV_Click(evt);
+            }
+        });
 
         RTB_VID.setEditable(false);
         RTB_VID.setColumns(20);

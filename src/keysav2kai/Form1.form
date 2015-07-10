@@ -207,6 +207,9 @@
                 <Property name="text" type="java.lang.String" value="Backup BV"/>
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="B_BKP_BV_Click"/>
+              </Events>
             </Component>
             <Container class="javax.swing.JScrollPane" name="RTB_VID_Scroll">
               <AuxValues>
