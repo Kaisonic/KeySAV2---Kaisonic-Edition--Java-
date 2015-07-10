@@ -71,3 +71,4 @@ db/*
 
 build/*
 dist/*
+/nbproject/private/

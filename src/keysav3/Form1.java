@@ -1,7 +1,5 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Blah blah license, this is open source, etc etc.
  */
 package keysav3;
 import java.io.*;
@@ -19,7 +17,7 @@ import java.awt.event.WindowEvent;
 
 /**
  *
- * @author Thomas
+ * @author Kaisonic
  */
 public class Form1 extends javax.swing.JFrame implements WindowListener {
 
@@ -136,6 +134,7 @@ public class Form1 extends javax.swing.JFrame implements WindowListener {
     // UI Usage
     private boolean updateIVCheckboxes = true;
     private volatile int game;
+    private Help helpInst;
     
     // Drag & Drop Events
     // @TODO
@@ -288,10 +287,10 @@ public class Form1 extends javax.swing.JFrame implements WindowListener {
     private void loadProgramIcons()
     {
         ArrayList<Image> theImages = new ArrayList(4);
-        theImages.add(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/keysav3/icon.png")));
-        theImages.add(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/keysav3/icon_16x16.png")));
-        theImages.add(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/keysav3/icon_30x32.png")));
-        theImages.add(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/keysav3/icon_45x48.png")));
+        theImages.add(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/keysav2kai/icon.png")));
+        theImages.add(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/keysav2kai/icon_16x16.png")));
+        theImages.add(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/keysav2kai/icon_30x32.png")));
+        theImages.add(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/keysav2kai/icon_45x48.png")));
         this.setIconImages(theImages);
     }
     
@@ -2199,9 +2198,9 @@ public class Form1 extends javax.swing.JFrame implements WindowListener {
 
     private void B_ShowOptions_Click(java.awt.event.ActionEvent evt)
     {
-        /*
-        Help.GetHelp.Show();
-        */
+        if (this.helpInst == null || !this.helpInst.isVisible())
+            this.helpInst = new Help();
+        this.helpInst.setVisible(true);
     }
 
     private void changeExportStyle(java.awt.event.ActionEvent evt)
@@ -2370,7 +2369,7 @@ public class Form1 extends javax.swing.JFrame implements WindowListener {
     private String[] getStringList(String f, String l)
     {
         String directory = (l.equals("all")) ? "" : l + "/";
-        try (InputStream in = this.getClass().getResourceAsStream("/keysav3/resources/text/" + directory + "text_" + f + "_" + l + ".txt");)
+        try (InputStream in = this.getClass().getResourceAsStream("/keysav2kai/resources/text/" + directory + "text_" + f + "_" + l + ".txt"))
         {
             BufferedReader r = new BufferedReader(new InputStreamReader(in));
             String line;
@@ -2873,10 +2872,8 @@ public class Form1 extends javax.swing.JFrame implements WindowListener {
         TB_FileBV2 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("KeySAV3");
-        setMaximumSize(new java.awt.Dimension(700, 750));
+        setTitle("KeySAV2 - Kaisonic Edition");
         setMinimumSize(new java.awt.Dimension(390, 588));
-        setPreferredSize(new java.awt.Dimension(390, 588));
 
         B_ShowOptions.setText("Help");
         B_ShowOptions.addActionListener(new java.awt.event.ActionListener() {
