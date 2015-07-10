@@ -63,7 +63,7 @@
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
           <StringArray count="12">
             <StringItem index="0" value="String Formatting"/>
-            <StringItem index="1" value="How to Use KeySAV3"/>
+            <StringItem index="1" value="How to Use This Program"/>
             <StringItem index="2" value="How to Get Your Saves"/>
             <StringItem index="3" value="How to Break Save Encryption"/>
             <StringItem index="4" value="How to Get Your Battle Videos"/>
@@ -72,7 +72,7 @@
             <StringItem index="7" value="How to Open Decrypted Saves (YABD, PCEdit, RAM2Sav)"/>
             <StringItem index="8" value="How to Use Battle Videos"/>
             <StringItem index="9" value="Export Options"/>
-            <StringItem index="10" value="About KeySAV3"/>
+            <StringItem index="10" value="About KeySAV2 - Kaisonic Edition"/>
             <StringItem index="11" value="Changelog"/>
           </StringArray>
         </Property>

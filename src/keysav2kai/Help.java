@@ -2,7 +2,7 @@
  * More license nonsense. It's open source.
  */
 
-package keysav3;
+package keysav2kai;
 
 /**
  *
@@ -54,7 +54,7 @@ public class Help extends javax.swing.JFrame {
 
         jLabel1.setText("Topic: ");
 
-        CB_HelpSelector.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "String Formatting", "How to Use KeySAV3", "How to Get Your Saves", "How to Break Save Encryption", "How to Get Your Battle Videos", "How to Break Battle Video Encryption", "How to Open Encrypted Saves (Digital copy, PowerSaves, CyberGadget)", "How to Open Decrypted Saves (YABD, PCEdit, RAM2Sav)", "How to Use Battle Videos", "Export Options", "About KeySAV3", "Changelog" }));
+        CB_HelpSelector.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "String Formatting", "How to Use This Program", "How to Get Your Saves", "How to Break Save Encryption", "How to Get Your Battle Videos", "How to Break Battle Video Encryption", "How to Open Encrypted Saves (Digital copy, PowerSaves, CyberGadget)", "How to Open Decrypted Saves (YABD, PCEdit, RAM2Sav)", "How to Use Battle Videos", "Export Options", "About KeySAV2 - Kaisonic Edition", "Changelog" }));
 
         RTB_Help.setColumns(20);
         RTB_Help.setRows(5);

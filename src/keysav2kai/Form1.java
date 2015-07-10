@@ -1,7 +1,7 @@
 /*
  * Blah blah license, this is open source, etc etc.
  */
-package keysav3;
+package keysav2kai;
 import java.io.*;
 import java.nio.file.*;
 import java.nio.charset.Charset;
@@ -2371,7 +2371,7 @@ public class Form1 extends javax.swing.JFrame implements WindowListener {
         String directory = (l.equals("all")) ? "" : l + "/";
         try (InputStream in = this.getClass().getResourceAsStream("/keysav2kai/resources/text/" + directory + "text_" + f + "_" + l + ".txt"))
         {
-            BufferedReader r = new BufferedReader(new InputStreamReader(in));
+            BufferedReader r = new BufferedReader(new InputStreamReader(in, Charset.forName("UTF-8")));
             String line;
             ArrayList<String> stringdata = new ArrayList();
             while ((line = r.readLine()) != null)
@@ -2915,7 +2915,7 @@ public class Form1 extends javax.swing.JFrame implements WindowListener {
 
         RTB_VID.setEditable(false);
         RTB_VID.setColumns(20);
-        RTB_VID.setFont(new java.awt.Font("DejaVu Sans", 0, 11)); // NOI18N
+        RTB_VID.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
         RTB_VID.setRows(1);
         RTB_VID_Scroll.setViewportView(RTB_VID);
 
@@ -3003,7 +3003,7 @@ public class Form1 extends javax.swing.JFrame implements WindowListener {
 
         RTB_SAV.setEditable(false);
         RTB_SAV.setColumns(20);
-        RTB_SAV.setFont(new java.awt.Font("DejaVu Sans", 0, 11)); // NOI18N
+        RTB_SAV.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
         RTB_SAV.setRows(1);
         RTB_SAV_Scroll.setViewportView(RTB_SAV);
 
@@ -3456,7 +3456,7 @@ public class Form1 extends javax.swing.JFrame implements WindowListener {
 
         RTB_OPTIONS.setEditable(false);
         RTB_OPTIONS.setColumns(20);
-        RTB_OPTIONS.setFont(new java.awt.Font("DejaVu Sans", 0, 11)); // NOI18N
+        RTB_OPTIONS.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
         RTB_OPTIONS.setLineWrap(true);
         RTB_OPTIONS.setRows(1);
         RTB_OPTIONS.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -3482,7 +3482,7 @@ public class Form1 extends javax.swing.JFrame implements WindowListener {
 
         RTB_Preview.setEditable(false);
         RTB_Preview.setColumns(20);
-        RTB_Preview.setFont(new java.awt.Font("DejaVu Sans", 0, 11)); // NOI18N
+        RTB_Preview.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
         RTB_Preview.setRows(1);
         RTB_Preview.setMaximumSize(new java.awt.Dimension(164, 18));
         jScrollPane2.setViewportView(RTB_Preview);
