@@ -14,6 +14,8 @@ import java.awt.Toolkit;
 import java.awt.Image;
 import java.awt.event.WindowListener;
 import java.awt.event.WindowEvent;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 /**
  *
@@ -2071,10 +2073,6 @@ public class Form1 extends javax.swing.JFrame implements WindowListener {
         }
         
         return result;
-        
-        // format = format.replace("{", "%");
-        // format = format.replace("}", "$s");
-        // return format;
     }
     
     // SD Detection
@@ -2341,15 +2339,6 @@ public class Form1 extends javax.swing.JFrame implements WindowListener {
             custom2b = CHK_R_Table.isSelected();
         else if (CB_ExportStyle.getSelectedIndex() == 5) // Custom 3
             custom3b = CHK_R_Table.isSelected();
-    }
-
-    private void changeReadOnly()
-    {
-        /*
-        RichTextBox rtb = sender as RichTextBox;
-        if (rtb.ReadOnly) rtb.BackColor = Color.FromKnownColor(KnownColor.Control);
-        else rtb.BackColor = Color.FromKnownColor(KnownColor.White);
-        */
     }
 
     // Update Text Format Preview
@@ -2624,56 +2613,50 @@ public class Form1 extends javax.swing.JFrame implements WindowListener {
     // UI button actions
     private void B_BKP_SAV_Click(java.awt.event.ActionEvent evt)
     {
-        /*
-        TextBox tb = TB_SAV;
-        FileInfo fi = new FileInfo(tb.Text);
-        DateTime dt = fi.LastWriteTime;
-        int year = dt.Year;
-        int month = dt.Month;
-        int day = dt.Day;
-        int hour = dt.Hour;
-        int minute = dt.Minute;
-        int second = dt.Second;
-        string bkpdate = year.ToString("0000") + month.ToString("00") + day.ToString("00") + hour.ToString("00") + minute.ToString("00") + second.ToString("00") + " ";
-        string newpath = bakpath + Path.DirectorySeparatorChar + bkpdate + fi.Name;
-        if (File.Exists(newpath))
+        Path fi = Paths.get(TB_SAV.getText());
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
+        Date now = new Date();
+        String newFile = CleanFileName(String.format("%s %s", dateFormat.format(now), fi.getFileName().toString()));
+        Path newPath = Paths.get(bakpath, newFile);
+        if (Files.exists(newPath))
         {
-            DialogResult sdr = MessageBox.Show("File already exists!\n\nOverwrite?", "Prompt", MessageBoxButtons.YesNo);
-            if (sdr == DialogResult.Yes)
-                File.Delete(newpath);
-            else 
+            if (JOptionPane.showConfirmDialog(this, "Save already exists!\n\nOverwrite?", "Prompt", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
+            {
+                try { Files.delete(newPath); }
+                catch (IOException e) { JOptionPane.showMessageDialog(this, "Error deleting save file.\n\n" + e, "Error", JOptionPane.ERROR_MESSAGE); }
+            }
+            else
+            {
                 return;
+            }
         }
-        File.Copy(tb.Text, newpath);
-        MessageBox.Show("Copied to Backup Folder.\n\nFile named:\n" + newpath, "Alert");
-        */
+        try { Files.copy(fi, newPath); }
+        catch (IOException e) { JOptionPane.showMessageDialog(this, "Error backing up save file.\n\n" + e, "Error", JOptionPane.ERROR_MESSAGE); }
+        JOptionPane.showMessageDialog(this, "Save backed up to:\n\n" + newPath.toString());
     }
 
     private void B_BKP_BV_Click()
     {
-        /*
-        TextBox tb = TB_BV;
-        FileInfo fi = new FileInfo(tb.Text);
-        DateTime dt = fi.LastWriteTime;
-        int year = dt.Year;
-        int month = dt.Month;
-        int day = dt.Day;
-        int hour = dt.Hour;
-        int minute = dt.Minute;
-        int second = dt.Second;
-        string bkpdate = year.ToString("0000") + month.ToString("00") + day.ToString("00") + hour.ToString("00") + minute.ToString("00") + second.ToString("00") + " ";
-        string newpath = bakpath + Path.DirectorySeparatorChar + bkpdate + fi.Name;
-        if (File.Exists(newpath))
+        Path fi = Paths.get(TB_BV.getText());
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
+        Date now = new Date();
+        String newFile = CleanFileName(String.format("%s %s", dateFormat.format(now), fi.getFileName().toString()));
+        Path newPath = Paths.get(bakpath, newFile);
+        if (Files.exists(newPath))
         {
-            DialogResult sdr = MessageBox.Show("File already exists!\n\nOverwrite?", "Prompt", MessageBoxButtons.YesNo);
-            if (sdr == DialogResult.Yes)
-                File.Delete(newpath);
-            else 
+            if (JOptionPane.showConfirmDialog(this, "Video already exists!\n\nOverwrite?", "Prompt", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
+            {
+                try { Files.delete(newPath); }
+                catch (IOException e) { JOptionPane.showMessageDialog(this, "Error deleting save file.\n\n" + e, "Error", JOptionPane.ERROR_MESSAGE); }
+            }
+            else
+            {
                 return;
+            }
         }
-        File.Copy(tb.Text, newpath);
-        MessageBox.Show("Copied to Backup Folder.\n\nFile named:\n" + newpath, "Alert");
-        */
+        try { Files.copy(fi, newPath); }
+        catch (IOException e) { JOptionPane.showMessageDialog(this, "Error backing up video file.\n\n" + e, "Error", JOptionPane.ERROR_MESSAGE); }
+        JOptionPane.showMessageDialog(this, "Video backed up to:\n\n" + newPath.toString());
     }
 
     private void B_BreakFolder_Click(java.awt.event.ActionEvent evt)
