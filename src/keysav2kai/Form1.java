@@ -135,6 +135,7 @@ public class Form1 extends javax.swing.JFrame implements WindowListener {
 
     // UI Usage
     private boolean updateIVCheckboxes = true;
+    private boolean updateIVAll = true;
     private volatile int game;
     private Help helpInst;
     
@@ -2696,32 +2697,30 @@ public class Form1 extends javax.swing.JFrame implements WindowListener {
 
     private void toggleIVAll(java.awt.event.ItemEvent evt)
     {
-        /*
-        if(updateIVCheckboxes)
-            switch ((new [] {CHK_IV_HP, CHK_IV_Atk, CHK_IV_Def, CHK_IV_SpAtk, CHK_IV_SpDef, CHK_IV_Spe}).Count(c => c.Checked))
-            {
-                case 0:
-                    CHK_IVsAny.CheckState = CheckState.Unchecked;
-                    break;
-                case 6:
-                    CHK_IVsAny.CheckState = CheckState.Checked;
-                    break;
-                default:
-                    CHK_IVsAny.CheckState = CheckState.Indeterminate;
-                    break;
-            }
-        */
+        if (updateIVCheckboxes)
+        {
+            updateIVAll = false;
+            if (CHK_IV_HP.isSelected() && CHK_IV_Atk.isSelected() && CHK_IV_Def.isSelected() && CHK_IV_SpAtk.isSelected() && CHK_IV_SpDef.isSelected() && CHK_IV_Spe.isSelected())
+                CHK_IVsAny.setSelected(true);
+            else
+                CHK_IVsAny.setSelected(false);
+            updateIVAll = true;
+        }
     }
 
     private void toggleIVsAny(java.awt.event.ItemEvent evt)
     {
-        /*
-        updateIVCheckboxes = false;
-        if (CHK_IVsAny.CheckState != CheckState.Indeterminate)
-            foreach (var box in new [] {CHK_IV_HP, CHK_IV_Atk, CHK_IV_Def, CHK_IV_SpAtk, CHK_IV_SpDef, CHK_IV_Spe})
-                box.Checked = CHK_IVsAny.Checked;
-        updateIVCheckboxes = true;
-        */
+        if (updateIVAll)
+        {
+            updateIVCheckboxes = false;
+            CHK_IV_HP.setSelected(CHK_IVsAny.isSelected());
+            CHK_IV_Atk.setSelected(CHK_IVsAny.isSelected());
+            CHK_IV_Def.setSelected(CHK_IVsAny.isSelected());
+            CHK_IV_SpAtk.setSelected(CHK_IVsAny.isSelected());
+            CHK_IV_SpDef.setSelected(CHK_IVsAny.isSelected());
+            CHK_IV_Spe.setSelected(CHK_IVsAny.isSelected());
+            updateIVCheckboxes = true;
+        }
     }
 
     private void toggleTrickroom(java.awt.event.ItemEvent evt)
