@@ -2426,15 +2426,16 @@ public class Form1 extends javax.swing.JFrame implements WindowListener {
         // Populate HP types in filters
         CCB_HPType.getModel().clear();
         CCB_HPType.getModel().addElement(0, "Any");
-        for (int i = 1; i < types.length-1; i++)
-            CCB_HPType.getModel().addElement(i + 1, types[i]);
+        for (int i = 1; i < types.length - 1; i++)
+            CCB_HPType.getModel().addElement(i, types[i]);
         // CCB_HPType.DisplayMember = "Name";
-        CCB_HPType.getModel().setCheck("All");
+        CCB_HPType.getModel().setCheck("Any");
 
         // Populate ability list
         String[] sortedAbilities = abilitylist.clone();
         Arrays.sort(sortedAbilities);
         CB_Abilities.removeAllItems();
+        CB_Abilities.addItem("All");
         for (String item : sortedAbilities)
             CB_Abilities.addItem(item);
         if (curAbility != -1) CB_Abilities.setSelectedItem(abilitylist[curAbility]);
