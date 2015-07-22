@@ -1,5 +1,20 @@
 /*
- * More license nonsense. It's open source.
+    Copyright 2015 Thomas DeBell (Kaisonic)
+
+    This file is part of KeySAV2 - Kaisonic Edition.
+
+    KeySAV2 - Kaisonic Edition is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    KeySAV2 - Kaisonic Edition is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package keysav2kai;
@@ -11,10 +26,6 @@ import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author Kaisonic
- */
 public class Help extends javax.swing.JFrame {
 
     /**
