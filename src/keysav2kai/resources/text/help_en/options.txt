@@ -2,11 +2,13 @@ Export Options
 
 There are many options to help you get the data you need in the format you want!
 
-"Game" - This selector will allow the program to automatically open saves and battle videos from the proper directory if your 3DS SD card is inserted in your computer. It actually has no effect on the output text (in other words, you don't need to select the game for the program to be able to read your saves and battle videos).
+"Game" - This selector will allow the program to automatically open saves and battle videos from the proper directory if your 3DS SD card is inserted in your computer. It actually has no effect on the output text (in other words, you don't need to select the game for the program to be able to read your saves and battle videos) - it only helps in automatically loading files from your SD card.
 
 --Export Options--
 
 "Language" - this option changes the language of the exported information about your Pokémon. Unfortunately, only the language of the information is changed - this program is only available in English. (Let me know if you want to help translate to other languages!)
+
+Note: If your language uses non-English characters, you may see only boxes instead of actual characters. In this case, simply copy and paste the output text into Notepad (or a Reddit post box) to see the actual characters.
 
 "Style" - this is your main export option.
 
@@ -22,7 +24,7 @@ There are many options to help you get the data you need in the format you want!
     
     "CSV custom" - This allows you to export a custom-formatted CSV file. Use the "Reset to Default" button to reset the format to show ALL available columns. This will allow you to get the most information about your Pokémon.
     
-    "To .PK6 File" - This will export a .PK6 file for each Pokémon that is output. You can then open these files in programs like PkHex.
+    "To .PK6 File" - This will export a .PK6 file for each Pokémon that is output. You can then open these files in programs like PKHex.
     
 "Unsure Data" - After initial encryption is broken on encrypted save files, the program may not have enough information to fully decrypt all of your Pokémon. You can use these two options to either mark the unsure Pokémon with a tilde ~ (recommended) or hide them altogether (not recommended).
 
@@ -43,10 +45,9 @@ There are many options to help you get the data you need in the format you want!
 "Color Boxes" - This option will prefix any Reddit output for proper table coloring on the /r/SvExchange subreddit. Use the drop-down box to select the color, or use "Cycle" to have your different boxes be colored differently.
 
 --CSV Options--
-"Enclose nickname and OT in quotes" - In rare cases, someone may have a comma in their OT name or a Pokémon's nickname. For CSV output, this would mess up the affected lines if the file is opened in a program like Excel. This option surrounds all OT names and nicknames with quotations to prevent this from happening. In other words, with this option checked, opening an exported CSV file in Excel will always be correct.
+"Enclose nickname and OT in quotes" - In rare cases, someone may have a comma in their OT name or a Pokémon's nickname. For CSV output, this would mess up the affected lines if the file is opened in a spreadsheet program like Excel. This option surrounds all OT names and nicknames with quotations to prevent this from happening. In other words, with this option checked, opening an exported CSV file in Excel will always be correct.
+
+"Reset Custom CSV" - If the selected style is "CSV custom", this will reset your "Text Format" to include ALL available columns of data.
 
 --Text Format--
-See "String Formatting" for more information.
-
---Breaker--
-This section is used to break encryption for encrypted saves and Battle Videos. See the appropriate help topics for more information.
+The text you insert here will be used as a template for each line of information output by the program. For example, if you type {0} - {2}, the program will output Box# - Species for each Pokemon. See "String Formatting" for more information.

@@ -1,11 +1,11 @@
 How to Open Decrypted Saves
 
-- Go to the "SAV" tab of the program.
-- Click on "Open SAV"
+- Go to the "Saves" tab of the program.
+- Click on "Open Save".
 - Select your file.
 - Select the boxes you would like to show, or leave "All" selected.
 - Go the "Options" tab to make your selections on Export Style and various other options.
-- Click "Enable" under "Filtering" in the "SAV" tab to do any filtering that you would like.
+- Click "Enable Filtering" in the "Saves" tab to do any filtering that you would like.
 - Click "Go".
 - Your Pokémon information should appear!
 

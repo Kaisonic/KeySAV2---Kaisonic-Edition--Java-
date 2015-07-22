@@ -6,7 +6,11 @@ Go into your SD card, then into the "Nintendo 3DS" directory, then the directory
 
     For X, your battle videos are in \extdata\00000000\0000055d\00000000\
     For Y, your battle videos are in \extdata\00000000\0000055e\00000000\
-    For OR, your battle videos are in \extdata\00000000\000011c4\00000000\
-    For AS, your battle videos are in \extdata\00000000\000011c5\00000000\
+    For OR, your battle videos are in \extdata\00000000\0011c400\00000000\
+    For AS, your battle videos are in \extdata\00000000\0011c500\00000000\
     
-Make sure to copy the file to your PC before renaming it or doing anything else with it. NEVER edit these files on your SD card!
+You can open these directly in this program. Click "Open Video" and navigate to the path above on your SD card.
+
+If you want to backup your video to your computer, you can do so with the "Backup BV" button after you've opened it.
+
+To prepare for the next time you create a battle video, delete the video you've just opened from your SD card in order to make sure that your game saves the new video in the same slot.

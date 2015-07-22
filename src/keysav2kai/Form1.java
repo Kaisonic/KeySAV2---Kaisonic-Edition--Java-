@@ -995,7 +995,7 @@ public class Form1 extends javax.swing.JFrame implements WindowListener {
                 if (CB_Abilities.getSelectedItem() != "" && CB_Abilities.getSelectedIndex() != 0 && CB_Abilities.getSelectedItem() != ability)
                 { satisfiesFilters = false; break; }
 
-                boolean checkHP = CCB_HPType.getModel().isChecked(CCB_HPType.getModel().getElementAt(0));
+                boolean checkHP = !CCB_HPType.getModel().isChecked(CCB_HPType.getModel().getElementAt(0));
                 byte checkHPDiff = (checkHP) ? (byte)1 : (byte)0;
                 int perfects = CB_No_IVs.getSelectedIndex();
                 for (Object[] iv : new Object[][] {

@@ -7,29 +7,28 @@ This setup only needs to be done once per game.
 See "How to Get Your Saves" for help in obtaining your save files.
 
     - In your game, clear out boxes 1 and 2 by moving the Pokémon to other boxes.
-        - The boxes don't need to be named "Box 1" and "Box 2", nor do they even need to be the original "Box 1" and "Box 2". They just need to be the first two boxes in your game.
-    - If you can, clear out ALL boxes that you plan to view in the program. It is optional, but decryption seems to work a little better if ALL boxes (that you plan to use) are cleared out at this point.
+        - The boxes don't need to be named "Box 1" and "Box 2", nor do they even need to be the original "Box 1" and "Box 2": they just need to be the first two boxes in your game.
+    - If you can, clear out ALL boxes that you plan to view in this program. It is optional, but decryption seems to work better if ALL boxes (that you plan to use) are cleared out at this point.
     - Place six (6) Pokémon that you've caught or hatched into the first row of the first box. They MUST come from your game (either caught or hatched).
     - Save your game, soft reset (push Select + L + R), reload your game, and save again.
     - Exit the game and copy your save to your PC.
-    - Rename this save "16.sav" or "16.bin" depending on its original extension
-        - If your file does not have an extension, just rename it "16"
+    - Rename this save "16.sav" or "16.bin" depending on its original extension.
+        - If your file does not have an extension, just rename it "16".
     - Open your game and move the 6 Pokémon from the top row of Box 1 to the top row of Box 2.
     - Save ONCE.
     - Exit the game and copy your save to your PC.
     - Rename this save "165.sav" or "165.bin" depending on its original extension.
-        - If your file does not have an extension, just rename it "165"
+        - If your file does not have an extension, just rename it "165".
     - Open your game and save once. Do not do anything else.
     - Exit the game and copy your save to your PC.
     - Rename this save "26.sav" or "26.bin" depending on its original extension.
-        - If your file does not have an extension, just rename it "26"
-    - In the program, go to the "Options" tab and load your three saves into the lower section.
+        - If your file does not have an extension, just rename it "26".
+    - In this program, go to the "Breaker" tab and load your three saves into the "Encrypted Saves" section.
         - File 1: 26
         - File 2: 16
         - File 3: 165
-    - Click "Break"
-    - Save your key file in the suggested directory.
-        - You can name the file whatever you want, but do not change the save directory.
+    - Click "Break".
+    - Click "OK".
         
 You can now go to the "SAV" tab to open any save from this game!
 
@@ -44,13 +43,21 @@ In order for your encryption to be completely broken, the program must see three
 The easiest way to do this is by doing the following:
 
     - Empty all boxes (or just the ones that you want fully decrypted if you're unable to empty all your boxes).
-    - Create a backup to your PC.
+    - Create a backup to your PC (which means save, exit the game, and copy your save to your PC).
     - Fill all boxes with Pokémon.
-    - Create a backup to your PC.
+    - Create another backup to your PC.
     - In the game, tap the button in the lower-left corner, then move each box over by one.
         - The easiest way to do this is to drag Box 1 to the Box 31 spot (so they swap), then drag Box 31 one-by-one to the spot before the spot that Box 1 is in.
         - You should now have Box 2 as your first box, and Box 1 as your last box.
     - Create a backup to your PC.
-    - In the Options tab of the program, in the very bottom section, click the "Folder" button, select the folder where you stored the backups you just created, then click "Break".
+    - In the "Breaker" tab of the program, in the "Improve Decryption for Encrypted Saves" section, click the "Folder" button, select the folder where you stored the backups you just created, then click "Break".
     
-To verify complete decryption, open one of your "full" saves in the "SAV" tab. You should see all 930 Pokémon with no "Unsure" data (or fewer if you created backups with not all boxes empty).
+To verify complete decryption, open one of your "full" saves in the "Saves" tab. You should see all 930 Pokémon with no "Unsure" data (or fewer if you created backups with not all boxes empty).
+
+If you don't see all 930 Pokémon, but you know you have all boxes filled, try these steps:
+
+    - Re-break for your save (load your "26", "16", and "165" files in the top section, click "Break", and click "Yes" to overwrite your keystream).
+    - Go to the "Saves" tab and open the save you created with all boxes empty.
+    - Now open the first save you created with all boxes full.
+    - Now open the second save you created with all boxes full.
+    - Hit "Go", and you should now see all 930 Pokémon.

@@ -4,7 +4,7 @@ How to Use Battle Videos
 - If you want to check TSVs, put the 6 Pokémon you want to check in your party and battle your friend.
 - Forfeit the battle and save the Battle Video.
 - Plug the SD card into your computer.
-- Go to the "BV" tab of the program.
+- Go to the "Battle Videos" tab of the program.
 - Click on "Open Video"
     - The program should automatically open your video for you.
     - Otherwise, select your file.

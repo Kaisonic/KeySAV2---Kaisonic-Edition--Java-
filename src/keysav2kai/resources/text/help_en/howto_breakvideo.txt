@@ -8,18 +8,22 @@ You will need the following:
 
 Note: up to 100 Battle Videos can be stored on the SD card. Before being able to dump the contents of your team, you will need to break the encryption of one Battle Video slot. Battle Videos are always saved to the lowest available slot, and being able to decrypt one slot will not help you break another. This program remembers the slots you have unlocked, so either make sure to always use the same Battle Video slot and delete each new Battle Video from your SD card once you have copied it to your PC, or only use slots that you have unlocked before.
 
-    -Be in a Pokémon Center, in front of the PC. Don't move anymore.
-    -Battle your friend in a Singles match and enter only 1 Pokémon from your party.
-        - If you want to be able to see information on your opponent's team as well, have your friend also enter only 1 Pokémon from their party.
-    -Forfeit the battle and save the Battle Video.
-    -Plug the SD card in your computer, copy the file to a safe place on your computer, add -1 to its name.
-    -Delete the Battle Video from the SD card only.
-    -Plug the SD card back in the 3DS.
-    -Battle your friend in a Singles match with 2 Pokémon from your party. The first one doesn't matter, but make sure the second one you enter is the original Pokémon you used for the first Battle Video.
-        - Again, if you want to be able to see information on your opponent's team, have your friend do the same - enter 2 Pokémon, the first doesn't matter, but the second one is the original Pokémon they used for the first Battle Video.
-    -Forfeit the battle and save the Battle Video.
-    -Plug the SD card in your computer, copy the file to a safe place on your computer, add -2 to its name.
-    -Delete the Battle Video from the SD card only.
-    -Plug the SD card back in the 3DS.
-    -In the program, go to the Options tab, load the two videos.
-    -Click on Break, and save the resulting file in the suggested folder.
+    - Be in a Pokémon Center, in front of the PC. Don't move anymore.
+    - Battle your friend in a Singles match and enter only 1 Pokémon from your party.
+        - If you want to be able to see information on your opponent's team as well for any battle video in the future, have your friend also enter only 1 Pokémon from their party.
+    - Forfeit the battle and have your friend do the same.
+    - Save the battle video. (Your friend does not have to save their battle video.)
+    - Plug the SD card in your computer, copy the file to a safe place on your computer, add -1 to its name.
+    - Delete the Battle Video from the SD card only.
+    - Plug the SD card back in the 3DS.
+    - Battle your friend in a Singles match with 2 Pokémon from your party. The first one doesn't matter, but make sure the second one you enter is the original Pokémon you used for the first Battle Video.
+        - Again, if you want to be able to see information on your opponent's team in future videos, have your friend do the same - enter 2 Pokémon, the first doesn't matter, but the second one is the original Pokémon they used for the first Battle Video.
+    - Forfeit the battle and save the Battle Video.
+    - Plug the SD card in your computer, copy the file to a safe place on your computer, add -2 to its name.
+    - Delete the Battle Video from the SD card only.
+    - Plug the SD card back in the 3DS.
+    - In the program, go to the "Breaker" tab and load the two videos in the "Battle Videos" section.
+    - Click on "Break".
+    - Click "OK" to save your keystream.
+
+You will now be able to view information about any battle video you save in that slot on your SD card! The program will also let you know during the breaking process if you will be able to see your opponent's information too!

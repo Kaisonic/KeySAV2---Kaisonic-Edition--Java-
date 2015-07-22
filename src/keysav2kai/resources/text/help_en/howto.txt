@@ -1,4 +1,4 @@
-How to Use KeySAV3
+How to Use KeySAV2 - Kaisonic Edition
 
 This program is for dumping various information about Pokémon from various files. There are two types of save game backups: encrypted and decrypted. The following encrypted files are supported:
 
@@ -20,4 +20,4 @@ NOTE: RAM2Sav support is in beta. If the program can't open your ramsav.bin for 
 
 For users that are unable to obtain a file of any of the types above, this program also supports Battle Videos - see "How to Break Battle Video Encryption" and "How to Open Battle Videos".
 
-Once you have your file, whether it be an encrypted save, a decrypted save, or a Battle Video, you can then use this program to view all sorts of data about your Pokemon! See "Export Options" for more information.
+Once you have your file, whether it be an encrypted save, a decrypted save, or a Battle Video, you can then use this program to view all sorts of data about your Pokémon! See "Export Options" for more information.

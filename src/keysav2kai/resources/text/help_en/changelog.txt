@@ -1,10 +1,10 @@
-=======================================
-Changelog for Kaisonic's Build, KeySAV3
-=======================================
-KeySAV3 3.0 (2015-02-5)
+========================================
+Changelog for KeySAV2 - Kaisonic Edition
+========================================
+Version 2.0 (2015-07-22)
 - 
 
-KeySAV2 1.3.8 (2015-01-29)
+Version 1.3.8 (2015-01-29)
 - Fixed output text box size on filter enable
 - Ensured level calculation is correct
 - Fixed file size checking on break files
@@ -17,25 +17,25 @@ KeySAV2 1.3.8 (2015-01-29)
 - Added option to not add header to output (it's recommended to keep "Header" checked for any Reddit output)
 - Fixed unhandled exception when decrypting certain Pokemon moves failed
 
-KeySAV2 1.3.7 (2015-01-05)
+Version 1.3.7 (2015-01-05)
 - Fixed auto-open paths - battle videos and saves should now open automatically when the SD card is inserted
 - Added support for CyberGadget backups
 - Merged filter updates from Cu3PO42's version
 - Filter options are only visible when filter is enabled
 - Added ball image column for the SVExchange subreddit
 
-KeySAV2 1.3.6 (2014-12-14)
+Version 1.3.6 (2014-12-14)
 - CSV output file name now defaults to name of the SAV or BV you've opened
 - Fixed: IV counter shows "1 IVs"
 - Fixed: hatched date for eggs is "2000-00-00"
 - Added: "Steps to Hatch" column for eggs
 - Added: "Reset to Default" button for CSV custom output
 
-KeySAV2 1.3.5 (2014-12-07)
+Version 1.3.5 (2014-12-07)
 - Added columns: OT gender, met level, OT friendship, OT affection
 - Fixed newlines and file paths for better compatibility
 
-KeySAV2 1.3.4 (2014-12-07)
+Version 1.3.4 (2014-12-07)
 - Fixed "Backup SAV" button size
 - Fixed empty first line in text output if "Split Boxes" was checked
 - Added more descriptive headers ("All Boxes", "Boxes 1-4", etc)
@@ -51,7 +51,7 @@ KeySAV2 1.3.4 (2014-12-07)
 - More code refactoring
 - Updated guide so the breaking process is easier to follow
 
-KeySAV2 1.3.3
+Version 1.3.3
 - Removed legacy save breaking behavior option (confusing and unnecessary)
 - Fixed output text box extending beyond window
 - Remove unstable key-breaking code
@@ -62,14 +62,14 @@ KeySAV2 1.3.3
 - Added columns: experience
 - Added translations for "Game" and "Region" columns ("Country" is still English for all)
 
-KeySAV2 1.3.2
+Version 1.3.2
 - Added "Egg Received" and "Met/Hatched" columns
 - Fixed legacy break help box
 
-KeySAV2 1.3.1
+Version 1.3.1
 - Added option to use legacy save-twice file-breaking behavior (click "What's this?" in the app for more info)
 
-KeySAV2 1.3
+Version 1.3
 - Added available columns: Level, Region, Country, Held Item, Language, Game, Number, PID, Mark, Dex Number, Form
 - Fixed "mark" - pentagon mark is now present for all Pokémon created in generation 6
 - Fixed "Number" column to be 1-indexed
