@@ -777,9 +777,6 @@
               </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="L_SAVStats">
-              <Properties>
-                <Property name="opaque" type="boolean" value="true"/>
-              </Properties>
             </Component>
           </SubComponents>
         </Container>

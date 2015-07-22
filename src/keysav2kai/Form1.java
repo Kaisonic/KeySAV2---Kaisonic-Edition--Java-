@@ -30,6 +30,7 @@ import java.awt.Toolkit;
 import java.awt.Image;
 import java.awt.event.WindowListener;
 import java.awt.event.WindowEvent;
+import java.nio.file.attribute.FileTime;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
@@ -242,7 +243,9 @@ public class Form1 extends javax.swing.JFrame implements WindowListener {
                 CB_BoxColor.setSelectedIndex(Integer.parseInt(config.next()));
                 CHK_ColorBox.setSelected(Boolean.parseBoolean(config.next()));
                 CHK_HideFirst.setSelected(Boolean.parseBoolean(config.next()));
-                this.setSize(Integer.parseInt(config.next()), Integer.parseInt(config.next()));
+                int height = Integer.parseInt(config.next());
+                int width = Integer.parseInt(config.next());
+                this.setSize(width, height);
                 CHK_Unicode.setSelected(Boolean.parseBoolean(config.next()));
                 vidpath = config.next();
                 savpath = config.next();
@@ -438,7 +441,9 @@ public class Form1 extends javax.swing.JFrame implements WindowListener {
     private void B_OpenSAV_Click(java.awt.event.ActionEvent evt)
     {
         JFileChooser ofd = new JFileChooser(savpath);
-        ofd.addChoosableFileFilter(new FileNameExtensionFilter("Save", "sav", "bin"));
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Save (*.sav, *.bin)", "sav", "bin");
+        ofd.addChoosableFileFilter(filter);
+        ofd.setFileFilter(filter);
         if (ofd.showOpenDialog(this) == JFileChooser.APPROVE_OPTION)
         {
             File file = ofd.getSelectedFile();
@@ -451,7 +456,6 @@ public class Form1 extends javax.swing.JFrame implements WindowListener {
     private void B_OpenVid_Click(java.awt.event.ActionEvent evt)
     {
         JFileChooser ofd = new JFileChooser(vidpath);
-        ofd.addChoosableFileFilter(new FileNameExtensionFilter("Battle Video", "*"));
         if (ofd.showOpenDialog(this) == JFileChooser.APPROVE_OPTION)
         {
             File file = ofd.getSelectedFile();
@@ -881,8 +885,8 @@ public class Form1 extends javax.swing.JFrame implements WindowListener {
         int boxoffset = BitConverter.ToInt32(keystream, 0x1C);
         for (int i = 0; i < 930; i++)
             fetchpkx(input, keystream, boxoffset + i * 232, 0x100 + i * 232, 0x40000 + i * 232, blank);
-        if(showUI)
-            L_SAVStats.setText(String.format("%0$s/930", slots));
+        // if (showUI)
+            // L_SAVStats.setText(String.format("%0$s/930", slots));
     }
     
     private void dumpPKX(boolean isSAV, byte[] pkx, int dumpnum, int dumpstart)
@@ -2630,7 +2634,16 @@ public class Form1 extends javax.swing.JFrame implements WindowListener {
     {
         Path fi = Paths.get(TB_SAV.getText());
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
-        Date now = new Date();
+        Date now;
+        try
+        {
+            FileTime time = Files.getLastModifiedTime(fi);
+            now = new Date(time.toMillis());
+        }
+        catch (IOException e)
+        {
+            now = new Date();
+        }
         String newFile = CleanFileName(String.format("%s %s", dateFormat.format(now), fi.getFileName().toString()));
         Path newPath = Paths.get(bakpath, newFile);
         if (Files.exists(newPath))
@@ -2654,7 +2667,16 @@ public class Form1 extends javax.swing.JFrame implements WindowListener {
     {
         Path fi = Paths.get(TB_BV.getText());
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
-        Date now = new Date();
+        Date now;
+        try
+        {
+            FileTime time = Files.getLastModifiedTime(fi);
+            now = new Date(time.toMillis());
+        }
+        catch (IOException e)
+        {
+            now = new Date();
+        }
         String newFile = CleanFileName(String.format("%s %s", dateFormat.format(now), fi.getFileName().toString()));
         Path newPath = Paths.get(bakpath, newFile);
         if (Files.exists(newPath))
@@ -3226,8 +3248,6 @@ public class Form1 extends javax.swing.JFrame implements WindowListener {
                 toggleFilter(evt);
             }
         });
-
-        L_SAVStats.setOpaque(true);
 
         javax.swing.GroupLayout tab_SAVLayout = new javax.swing.GroupLayout(tab_SAV);
         tab_SAV.setLayout(tab_SAVLayout);

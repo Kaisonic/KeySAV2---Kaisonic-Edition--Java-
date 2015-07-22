@@ -19,11 +19,14 @@
 
 package keysav2kai;
 
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 public class Help extends javax.swing.JFrame {
@@ -33,6 +36,7 @@ public class Help extends javax.swing.JFrame {
      */
     public Help() {
         initComponents();
+        loadProgramIcons();
         loadHelp(null);
     }
     
@@ -50,6 +54,17 @@ public class Help extends javax.swing.JFrame {
         "about",
         "changelog"
     };
+    
+    // Load the program icons
+    private void loadProgramIcons()
+    {
+        ArrayList<Image> theImages = new ArrayList(4);
+        theImages.add(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/keysav2kai/icon.png")));
+        theImages.add(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/keysav2kai/icon_16x16.png")));
+        theImages.add(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/keysav2kai/icon_30x32.png")));
+        theImages.add(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/keysav2kai/icon_45x48.png")));
+        this.setIconImages(theImages);
+    }
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -80,6 +95,7 @@ public class Help extends javax.swing.JFrame {
         RTB_Help.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
         RTB_Help.setLineWrap(true);
         RTB_Help.setRows(5);
+        RTB_Help.setWrapStyleWord(true);
         jScrollPane1.setViewportView(RTB_Help);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
