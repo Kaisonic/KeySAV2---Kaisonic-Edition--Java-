@@ -36,7 +36,8 @@
               <Group type="103" groupAlignment="1" attributes="0">
                   <Component id="tab_Main" max="32767" attributes="0"/>
                   <Group type="102" attributes="0">
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      <Component id="jButton1" max="32767" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="label3" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="CB_Game" min="-2" max="-2" attributes="0"/>
@@ -56,6 +57,7 @@
                   <Component id="B_ShowOptions" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="CB_Game" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="label3" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jButton1" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="tab_Main" max="32767" attributes="0"/>
@@ -771,6 +773,7 @@
             <Component class="javax.swing.JCheckBox" name="CHK_Enable_Filtering">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Enable Filtering"/>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <Events>
                 <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="toggleFilter"/>
@@ -1405,6 +1408,7 @@
                 <Component class="javax.swing.JButton" name="B_Folder">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Folder"/>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="loadBreakFolder"/>
@@ -1518,5 +1522,13 @@
         </Container>
       </SubComponents>
     </Container>
+    <Component class="javax.swing.JButton" name="jButton1">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Beta Version - Click for Info"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+      </Events>
+    </Component>
   </SubComponents>
 </Form>

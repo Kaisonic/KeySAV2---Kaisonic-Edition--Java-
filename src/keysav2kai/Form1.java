@@ -2883,6 +2883,7 @@ public class Form1 extends javax.swing.JFrame implements WindowListener {
         TB_FileBV1 = new javax.swing.JTextField();
         BVFile2 = new javax.swing.JButton();
         TB_FileBV2 = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("KeySAV2 - Kaisonic Edition");
@@ -3243,6 +3244,7 @@ public class Form1 extends javax.swing.JFrame implements WindowListener {
         );
 
         CHK_Enable_Filtering.setText("Enable Filtering");
+        CHK_Enable_Filtering.setEnabled(false);
         CHK_Enable_Filtering.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 toggleFilter(evt);
@@ -3636,6 +3638,7 @@ public class Form1 extends javax.swing.JFrame implements WindowListener {
         });
 
         B_Folder.setText("Folder");
+        B_Folder.setEnabled(false);
         B_Folder.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 loadBreakFolder(evt);
@@ -3758,6 +3761,13 @@ public class Form1 extends javax.swing.JFrame implements WindowListener {
 
         tab_Main.addTab("Breaker", tab_Breaker);
 
+        jButton1.setText("Beta Version - Click for Info");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -3767,7 +3777,8 @@ public class Form1 extends javax.swing.JFrame implements WindowListener {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(tab_Main)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
                         .addComponent(label3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(CB_Game, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -3782,7 +3793,8 @@ public class Form1 extends javax.swing.JFrame implements WindowListener {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(B_ShowOptions)
                     .addComponent(CB_Game, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(label3))
+                    .addComponent(label3)
+                    .addComponent(jButton1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(tab_Main)
                 .addContainerGap())
@@ -3792,6 +3804,12 @@ public class Form1 extends javax.swing.JFrame implements WindowListener {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        JOptionPane.showMessageDialog(this, 
+                "This version is a beta! Filtering and folder breaking are not yet implemented, and some of the Help text is outdated. Everything else should be fully functional!\n\nIf anything doesn't work, PLEASE let me know! Go to https://github.com/Kaisonic/KeySAV2-Kaisonic-Java to give feedback on this version!\n\nThanks! ~Kaisonic"
+                );
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -3903,6 +3921,7 @@ public class Form1 extends javax.swing.JFrame implements WindowListener {
     private javax.swing.JTextField TB_Folder;
     private javax.swing.JTextField TB_SAV;
     private javax.swing.JTextField TB_SVs;
+    private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
